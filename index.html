@@ -1,22 +1,11 @@
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quote Builder</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-function toggleSelectAll(masterCheckbox) {
-  const checkboxes = document.querySelectorAll(".select-task");
-  checkboxes.forEach(cb => {
-    cb.checked = masterCheckbox.checked;
-  });
-  calculateTotal();
-}
-
-</script>
-<style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Quote Builder</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
     body { font-family: Arial, sans-serif; padding: 2rem; background: #f5f5f5; }
     h1, select { text-align: center; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: #fff; }
@@ -27,36 +16,38 @@ function toggleSelectAll(masterCheckbox) {
   </style>
 </head>
 <body>
-<h1>Sales Quote Builder</h1>
-<div style="text-align:center; margin-bottom:1rem;">
-<label for="sheetSelect">Select Project Type:</label>
-<select id="sheetSelect" onchange="renderTable()"></select>
-</div><div class="top-controls"><label><input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select/Deselect All</label></div>
-<table id="quote-table">
-<thead>
-<tr>
-<th>Select</th>
-<th>Task</th>
-<th>Rate Type</th>
-<th>Duration (Days)</th>
-<th>Rate Per Day</th>
-<th>Quantity</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody></tbody>
-<tfoot>
-<tr><td colspan="6">Total Selected Cost</td><td id="total">0</td></tr>
-<tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">0</td></tr>
-<tr><td colspan="6">Grand Total</td><td id="grand-total">0</td></tr>
-</tfoot>
-</table>
-<div style="text-align:center">
-<button class="btn" onclick="calculateTotal()">Calculate Total</button>
-<button class="btn" onclick="downloadPDF()">Download PDF</button>
-</div>
-<script>
-    // Placeholder: Please insert your full JSON here
+  <h1>Sales Quote Builder</h1>
+  <div style="text-align:center; margin-bottom:1rem;">
+    <label for="sheetSelect">Select Project Type:</label>
+    <select id="sheetSelect" onchange="renderTable()"></select>
+  </div>
+  <div class="top-controls" style="text-align:center;"><label><input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select/Deselect All</label></div>
+  <table id="quote-table">
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Task</th>
+        <th>Rate Type</th>
+        <th>Duration (Days)</th>
+        <th>Rate Per Day</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr><td colspan="6">Total Selected Cost</td><td id="total">0</td></tr>
+      <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">0</td></tr>
+      <tr><td colspan="6">Grand Total</td><td id="grand-total">0</td></tr>
+      <tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
+    </tfoot>
+  </table>
+  <div style="text-align:center">
+    <button class="btn" onclick="calculateTotal()">Calculate Total</button>
+    <button class="btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <script>
     const allData = {
   "New Server Builds": [
     {
@@ -988,26 +979,37 @@ function toggleSelectAll(masterCheckbox) {
 
     function calculateTotal() {
       let total = 0;
+      let totalDays = 0;
       allData[currentSheet].forEach((row, index) => {
         const selected = document.querySelector(`.select-task[data-index='${index}']`).checked;
         const qty = parseInt(document.querySelector(`.quantity[data-index='${index}']`).value) || 0;
         const duration = parseFloat(row["Duration (Days)"]) || 0;
         const rate = parseFloat(row["Rate Per Day"]) || 0;
         const cost = selected ? duration * rate * qty : 0;
+        const days = selected ? duration * qty : 0;
         document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
         total += cost;
+        totalDays += days;
       });
       const pm = total * 0.2;
       document.getElementById("total").textContent = `£${total.toFixed(2)}`;
       document.getElementById("pm-fee").textContent = `£${pm.toFixed(2)}`;
       document.getElementById("grand-total").textContent = `£${(total + pm).toFixed(2)}`;
+      document.getElementById("total-days").textContent = totalDays.toFixed(1);
+    }
+
+    function toggleSelectAll(masterCheckbox) {
+      const checkboxes = document.querySelectorAll(".select-task");
+      checkboxes.forEach(cb => {
+        cb.checked = masterCheckbox.checked;
+      });
+      calculateTotal();
     }
 
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFontSize(12);
-
       doc.text(`Quote - ${currentSheet}`, 10, 10);
       let y = 20;
       allData[currentSheet].forEach((row, index) => {
@@ -1021,25 +1023,15 @@ function toggleSelectAll(masterCheckbox) {
           y += 10;
         }
       });
-
       y += 10;
       doc.text(`Total: ${document.getElementById("total").textContent}`, 10, y);
       doc.text(`PM Fee (20%): ${document.getElementById("pm-fee").textContent}`, 10, y + 10);
       doc.text(`Grand Total: ${document.getElementById("grand-total").textContent}`, 10, y + 20);
-
+      doc.text(`Total Days Required: ${document.getElementById("total-days").textContent}`, 10, y + 30);
       doc.save(`${currentSheet}_quote.pdf`);
     }
 
     renderTable();
-  
-function toggleSelectAll(masterCheckbox) {
-  const checkboxes = document.querySelectorAll(".select-task");
-  checkboxes.forEach(cb => {
-    cb.checked = masterCheckbox.checked;
-  });
-  calculateTotal();
-}
-
-</script>
+  </script>
 </body>
 </html>
