@@ -1,12 +1,22 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quote Builder</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quote Builder</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+function toggleSelectAll(masterCheckbox) {
+  const checkboxes = document.querySelectorAll(".select-task");
+  checkboxes.forEach(cb => {
+    cb.checked = masterCheckbox.checked;
+  });
+  calculateTotal();
+}
+
+</script>
+<style>
     body { font-family: Arial, sans-serif; padding: 2rem; background: #f5f5f5; }
     h1, select { text-align: center; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: #fff; }
@@ -17,38 +27,35 @@
   </style>
 </head>
 <body>
-  <h1>Sales Quote Builder</h1>
-  <div style="text-align:center; margin-bottom:1rem;">
-    <label for="sheetSelect">Select Project Type:</label>
-    <select id="sheetSelect" onchange="renderTable()"></select>
-  </div>
-
-  <table id="quote-table">
-    <thead>
-      <tr>
-        <th>Select</th>
-        <th>Task</th>
-        <th>Rate Type</th>
-        <th>Duration (Days)</th>
-        <th>Rate Per Day</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-      <tr><td colspan="6">Total Selected Cost</td><td id="total">0</td></tr>
-      <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">0</td></tr>
-      <tr><td colspan="6">Grand Total</td><td id="grand-total">0</td></tr>
-    </tfoot>
-  </table>
-
-  <div style="text-align:center">
-    <button class="btn" onclick="calculateTotal()">Calculate Total</button>
-    <button class="btn" onclick="downloadPDF()">Download PDF</button>
-  </div>
-
-  <script>
+<h1>Sales Quote Builder</h1>
+<div style="text-align:center; margin-bottom:1rem;">
+<label for="sheetSelect">Select Project Type:</label>
+<select id="sheetSelect" onchange="renderTable()"></select>
+</div><div class="top-controls"><label><input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select/Deselect All</label></div>
+<table id="quote-table">
+<thead>
+<tr>
+<th>Select</th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+<tfoot>
+<tr><td colspan="6">Total Selected Cost</td><td id="total">0</td></tr>
+<tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">0</td></tr>
+<tr><td colspan="6">Grand Total</td><td id="grand-total">0</td></tr>
+</tfoot>
+</table>
+<div style="text-align:center">
+<button class="btn" onclick="calculateTotal()">Calculate Total</button>
+<button class="btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+<script>
     // Placeholder: Please insert your full JSON here
     const allData = {
   "New Server Builds": [
@@ -1024,6 +1031,15 @@
     }
 
     renderTable();
-  </script>
+  
+function toggleSelectAll(masterCheckbox) {
+  const checkboxes = document.querySelectorAll(".select-task");
+  checkboxes.forEach(cb => {
+    cb.checked = masterCheckbox.checked;
+  });
+  calculateTotal();
+}
+
+</script>
 </body>
 </html>
