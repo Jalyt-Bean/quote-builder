@@ -1,0 +1,900 @@
+### - For Chatgpt use due to dataset being too high
+
+const allData = {
+  "New Server Builds": [
+    {
+      "Task": "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - Domain Controller",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - File Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - SQL Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - IIS Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - RDS Connection Broker & Gateway ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - RDS Session Host",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Transfer FSMO Roles",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Liaise with third party to assist with data and application move",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configure Datto BCDR",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Install Datto BCDR agent - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Data Migration between File servers (per 500GB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Database Migration between SQL servers (per DB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Physical server decommission",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Travel Time for Field Engineer",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    }
+  ],
+  "Fortigate Installs": [
+    {
+      "Task": "Fortigate firewall WAN/LAN and default ACL configuration ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Fortigate UTM configuration - Web Filter",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "On-Prem to Azure": [
+    {
+      "Task": "Prescoping Consultancy call to discuss migration plans and cost optimisation with follow up report",
+      "Rate Type": "Consultancy rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 1100.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure subscription procurement & creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Migrate setup (Agentless Hyper-V/VMWare)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Migrate setup (Mobility Agent for Physical servers)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual machine migration - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 2.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Liaise with third party to assist with data and application move",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN Gateway creation & site to site configuration",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN point to site configuration (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Backup Vault & Policies",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Hostpool, Workspace & Application Group Creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Creation (UAT)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Sysprep and Go live",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Bastion setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Physical server decommission",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    }
+  ],
+  "Azure New Infrastructure": [
+    {
+      "Task": "Prescoping Consultancy call to discussplans and cost optimisation with follow up report",
+      "Rate Type": "Consultancy rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 1100.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure subscription procurement & creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual machine migration - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 2.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN Gateway creation & site to site configuration",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN point to site configuration (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Backup Vault & Policies",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Hostpool, Workspace & Application Group Creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Creation (UAT)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Sysprep and Go live",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of Azure SQL database (single DB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of Azure SQL Database (Elastic)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure bastion setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "Sharepoint & Entra Join": [
+    {
+      "Task": "Consultation session to review current file share structure and layout desired Sharepoint structure",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Sharepoint site & document library design & creation of groups / permissions (per 5 sites / Document libraries)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Installation of Sharepoint migration tool on pre-existing file server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Setup pilot of batch data and get feedback from the client",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migrate User's personal data to one drive (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migrate production data to Sharepoint sites (per 500gb)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Procure Profwiz licensing and create provisioning package for workstations",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of script to migrate the workstations to Entra",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migration of workstations (per 7 workstations",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "Intune": [
+    {
+      "Task": "Digital Transformation Project - Intune BYOD Windows 10/11",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of dynamic groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enabled Automatic Enrolment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Conditional Access",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy creation",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Restrict downloads for unmanaged devices (Sharepoint admin)",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "One drive policy - Disable known folder move",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment for Office",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Rollout to devices",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD iOS",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Apple Enrolment Token",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Device Categories for iOS / Android",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "User instructions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD Android",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Link Android Store",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "User instructions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD MACs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Apple Enrolment Token",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications (create email template)",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune Corporate Windows 10",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 3.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Company Branding",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enabled Automatic Enrolment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Device Limit restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Deployment profile",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Status page",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Windows Update Profile",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "MDM Security Baseline",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Bit Locker",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "One Drive Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "SharePoint Sync Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App Deployment for Office",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration for Wi-Fi",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    }
+  ],
+  "Services Only": [
+    {
+      "Task": "Huntress ITDR (MDR for M365)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Huntress EDR",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Mesh Unified",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Exclaimer - 1 signature for whole company as standard - design not included",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Exclaimer - additional signatures based on role / department",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Datto BCDR - Configure Datto BCDR Appliance",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Datto BCDR - Install Datto BCDR agent - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Redstor M365 backup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (On-premises) - Portal setup, LDAP configuration + 1 printer ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (On-premises) - extra printer setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (Cloud Deployment) - Portal setup, Entra ID registrion + 1 printer",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (Cloud Deployment) - extra printer setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "uSecure - Portal setup, Creation of user groups and configuration of autophish",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Panda / Watchguard Deployment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Vonahi vPentest Deployment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ]
+}; 
