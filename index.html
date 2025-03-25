@@ -1,45 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quote Builder</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #f5f5f5;
-    }
-    h1, select {
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      background: #fff;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
-      text-align: left;
-    }
-    th {
-      background: #0078d4;
-      color: white;
-    }
-    tfoot td {
-      font-weight: bold;
-    }
-    .btn {
-      margin: 1rem 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #0078d4;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f5f5f5; }
+    h1, select { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: #fff; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #0078d4; color: white; }
+    tfoot td { font-weight: bold; }
+    .btn { margin: 1rem 0.5rem; padding: 0.5rem 1rem; background: #0078d4; color: white; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -63,18 +37,9 @@
     </thead>
     <tbody></tbody>
     <tfoot>
-      <tr>
-        <td colspan="6">Total Selected Cost</td>
-        <td id="total">0</td>
-      </tr>
-      <tr>
-        <td colspan="6">PM Fee (20%)</td>
-        <td id="pm-fee">0</td>
-      </tr>
-      <tr>
-        <td colspan="6">Grand Total</td>
-        <td id="grand-total">0</td>
-      </tr>
+      <tr><td colspan="6">Total Selected Cost</td><td id="total">0</td></tr>
+      <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">0</td></tr>
+      <tr><td colspan="6">Grand Total</td><td id="grand-total">0</td></tr>
     </tfoot>
   </table>
 
@@ -84,6 +49,7 @@
   </div>
 
   <script>
+    // Placeholder: Please insert your full JSON here
     const allData = {
   "New Server Builds": [
     {
@@ -297,28 +263,28 @@
       "Task": "AVD Golden Image Creation (UAT)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": 950,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": 475,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": 475,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": 950,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
@@ -411,28 +377,28 @@
       "Task": "AVD Golden Image Creation (UAT)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": 950,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": 475,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": 475,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": 950,
+      "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
@@ -981,9 +947,9 @@
       "Quantity": 1
     }
   ]
-};
-    let currentSheet = Object.keys(allData)[0];
+}; 
 
+    let currentSheet = Object.keys(allData)[0];
     const sheetSelect = document.getElementById("sheetSelect");
     const tbody = document.querySelector("#quote-table tbody");
 
@@ -1001,12 +967,12 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td><input type="checkbox" class="select-task" data-index="${index}" checked></td>
-          <td>${row["Task"]}</td>
-          <td>${row["Rate Type"]}</td>
-          <td>${row["Duration (Days)"]}</td>
-          <td>${row["Rate Per Day"]}</td>
+          <td>${row["Task"] || ""}</td>
+          <td>${row["Rate Type"] || ""}</td>
+          <td>${row["Duration (Days)"] || 0}</td>
+          <td>${row["Rate Per Day"] || 0}</td>
           <td><input type="number" value="${row.Quantity || 1}" min="1" class="quantity" data-index="${index}"></td>
-          <td class="cost" id="cost-${index}">0</td>
+          <td class="cost" id="cost-${index}">£0.00</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1018,7 +984,9 @@
       allData[currentSheet].forEach((row, index) => {
         const selected = document.querySelector(`.select-task[data-index='${index}']`).checked;
         const qty = parseInt(document.querySelector(`.quantity[data-index='${index}']`).value) || 0;
-        const cost = selected ? row["Duration (Days)"] * row["Rate Per Day"] * qty : 0;
+        const duration = parseFloat(row["Duration (Days)"]) || 0;
+        const rate = parseFloat(row["Rate Per Day"]) || 0;
+        const cost = selected ? duration * rate * qty : 0;
         document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
         total += cost;
       });
@@ -1034,14 +1002,15 @@
       doc.setFontSize(12);
 
       doc.text(`Quote - ${currentSheet}`, 10, 10);
-
       let y = 20;
       allData[currentSheet].forEach((row, index) => {
         const selected = document.querySelector(`.select-task[data-index='${index}']`).checked;
         const qty = parseInt(document.querySelector(`.quantity[data-index='${index}']`).value) || 0;
-        if (selected) {
-          const cost = row["Duration (Days)"] * row["Rate Per Day"] * qty;
-          doc.text(`- ${row["Task"]}: £${cost.toFixed(2)}`, 10, y);
+        const duration = parseFloat(row["Duration (Days)"]) || 0;
+        const rate = parseFloat(row["Rate Per Day"]) || 0;
+        if (selected && (duration > 0 || rate > 0)) {
+          const cost = duration * rate * qty;
+          doc.text(`- ${row["Task"] || "Untitled Task"}: £${cost.toFixed(2)}`, 10, y);
           y += 10;
         }
       });
