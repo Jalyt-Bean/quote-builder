@@ -13,6 +13,7 @@
     th { background: #0078d4; color: white; }
     tfoot td { font-weight: bold; }
     .btn { margin: 1rem 0.5rem; padding: 0.5rem 1rem; background: #0078d4; color: white; border: none; cursor: pointer; }
+    #scenarioSelect { margin-top: 1rem; display: none; text-align: center; }
   </style>
 </head>
 <body>
@@ -20,6 +21,13 @@
   <div style="text-align:center; margin-bottom:1rem;">
     <label for="sheetSelect">Select Project Type:</label>
     <select id="sheetSelect" onchange="renderTable()"></select>
+  </div>
+  <div id="scenarioSelect">
+    <label for="scenario">Scenario:</label>
+    <select id="scenario" onchange="applyScenario()">
+      <option value="">-- Select Scenario --</option>
+      <option value="small-domain">1–9 Users: DC + File Server</option>
+    </select>
   </div>
   <div class="top-controls" style="text-align:center;"><label><input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select/Deselect All</label></div>
   <table id="quote-table">
@@ -946,9 +954,10 @@
     }
   ]
 }; 
-
     let currentSheet = Object.keys(allData)[0];
     const sheetSelect = document.getElementById("sheetSelect");
+    const scenarioContainer = document.getElementById("scenarioSelect");
+    const scenarioDropdown = document.getElementById("scenario");
     const tbody = document.querySelector("#quote-table tbody");
 
     Object.keys(allData).forEach(sheet => {
@@ -961,6 +970,9 @@
     function renderTable() {
       currentSheet = sheetSelect.value;
       tbody.innerHTML = "";
+      scenarioContainer.style.display = currentSheet === "New Server Builds" ? "block" : "none";
+      scenarioDropdown.value = "";
+
       allData[currentSheet].forEach((row, index) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -1002,6 +1014,24 @@
       const checkboxes = document.querySelectorAll(".select-task");
       checkboxes.forEach(cb => {
         cb.checked = masterCheckbox.checked;
+      });
+      calculateTotal();
+    }
+
+    function applyScenario() {
+      if (currentSheet !== "New Server Builds") return;
+
+      const scenario = scenarioDropdown.value;
+      allData[currentSheet].forEach((row, index) => {
+        const checkbox = document.querySelector(`.select-task[data-index='${index}']`);
+
+        if (scenario === "small-domain") {
+          const task = row["Task"] || "";
+          const isRelevant = ["Build New VM - Domain Controller", "Build New VM - File Server"].includes(task.trim());
+          checkbox.checked = isRelevant;
+        } else {
+          checkbox.checked = true;
+        }
       });
       calculateTotal();
     }
