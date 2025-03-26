@@ -74,31 +74,31 @@
   <img src="risc.png" alt="Left Logo">
   <img src="Novem Logo with Name - Copy Larger Border.png" alt="Right Logo">
 </header>
-  
+
 <h1>Sales Quote Builder</h1>
 
 <div class="controls">
   <label for="sheetSelect">Select Project Type:</label>
   <select id="sheetSelect" onchange="renderTable()"></select>
 
-  <label for="scenarioSelect" id="scenarioLabel" style="display:none;">Select Scenario:</label>
-  <select id="scenarioSelect" onchange="applyScenario()" style="display:none;"></select>
+  <label for="scenarioSelect" id="scenarioLabel">Select Scenario:</label>
+  <select id="scenarioSelect" onchange="applyScenario()"></select>
 </div>
 
 <table id="quote-table">
   <thead>
-  <tr>
-    <th>
-      <input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select
-    </th>
-    <th>Task</th>
-    <th>Rate Type</th>
-    <th>Duration (Days)</th>
-    <th>Rate Per Day</th>
-    <th>Quantity</th>
-    <th>Cost</th>
-  </tr>
-</thead>
+    <tr>
+      <th>
+        <input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select
+      </th>
+      <th>Task</th>
+      <th>Rate Type</th>
+      <th>Duration (Days)</th>
+      <th>Rate Per Day</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
   <tbody></tbody>
   <tfoot>
     <tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
@@ -1015,6 +1015,7 @@
     }
   ]
 }; 
+
   const scenarios = {
     "New Server Builds": {
       "New Server Build - Small Setup - 1x Domain Controller, 1x File Server, Transfer 1TB data": {
@@ -1112,9 +1113,11 @@
 
   function updateScenarioDropdown() {
     const options = scenarios[currentSheet] || {};
+    scenarioSelect.style.display = "inline";
+    scenarioLabel.style.display = "inline";
+    scenarioSelect.innerHTML = "";
+
     if (Object.keys(options).length > 0) {
-      scenarioSelect.style.display = "inline";
-      scenarioLabel.style.display = "inline";
       scenarioSelect.innerHTML = `<option value="">-- Select Scenario --</option>`;
       Object.keys(options).forEach(name => {
         const opt = document.createElement("option");
@@ -1123,9 +1126,10 @@
         scenarioSelect.appendChild(opt);
       });
     } else {
-      scenarioSelect.style.display = "none";
-      scenarioLabel.style.display = "none";
-      scenarioSelect.innerHTML = "";
+      const opt = document.createElement("option");
+      opt.textContent = "-- No scenarios available --";
+      opt.disabled = true;
+      scenarioSelect.appendChild(opt);
     }
   }
 
@@ -1176,5 +1180,6 @@
     doc.save(`${currentSheet}_quote.pdf`);
   }
 </script>
+
 </body>
 </html>
