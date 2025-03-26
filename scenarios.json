@@ -1,0 +1,183 @@
+{
+  "New Server Builds": {
+    "Small Business (2 VMs + Data Migration)": {
+      "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment": 1,
+      "Build New VM - Domain Controller": 1,
+      "Build New VM - File Server": 1,
+      "Transfer FSMO Roles": 1,
+      "Data Migration between File servers (per 500GB)": 2,
+      "Configure Datto BCDR": 1,
+      "Install Datto BCDR agent - per 5 VMs": 1,
+      "Travel Time for Field Engineer": 1,
+      "Physical server decommission": 1
+    },
+    "Medium Business (5 VMs + SQL + RDS)": {
+      "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment": 1,
+      "Build New VM - Domain Controller": 1,
+      "Build New VM - File Server": 1,
+      "Build New VM - SQL Server": 1,
+      "Build New VM - RDS Session Host": 1,
+      "Transfer FSMO Roles": 1,
+      "Configure Datto BCDR": 1,
+      "Install Datto BCDR agent - per 5 VMs": 1,
+      "Data Migration between File servers (per 500GB)": 3,
+      "Database Migration between SQL servers (per DB)": 1,
+      "Travel Time for Field Engineer": 1,
+      "Physical server decommission": 1
+    },
+    "Large Business (8+ VMs inc. Web + RDS Cluster)": {
+      "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment": 1,
+      "Build New VM - Domain Controller": 1,
+      "Build New VM - File Server": 1,
+      "Build New VM - SQL Server": 1,
+      "Build New VM - IIS Server": 1,
+      "Build New VM - RDS Connection Broker & Gateway ": 1,
+      "Build New VM - RDS Session Host": 2,
+      "Transfer FSMO Roles": 1,
+      "Data Migration between File servers (per 500GB)": 4,
+      "Database Migration between SQL servers (per DB)": 2,
+      "Liaise with third party to assist with data and application move": 1,
+      "Configure Datto BCDR": 1,
+      "Install Datto BCDR agent - per 5 VMs": 2,
+      "Travel Time for Field Engineer": 1,
+      "Physical server decommission": 1
+    }
+  },
+  "Fortigate Installs": {
+    "Small Office (Standard UTM config)": {
+      "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
+      "Travel Time for Field Engineer": 1
+    },
+    "Medium Office (Web Filter + IPS/IDS)": {
+      "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
+      "Fortigate UTM configuration - Web Filter": 1,
+      "Travel Time for Field Engineer": 1
+    },
+    "Large Office (Full Stack Config)": {
+      "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
+      "Fortigate UTM configuration - Web Filter": 1,
+      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1,
+      "Travel Time for Field Engineer": 1
+    }
+  },
+  "On-Prem to Azure": {
+    "Small Setup (2 Servers, light VNet)": {
+      "Prescoping Consultancy call to discuss migration plans and cost optimisation with follow up report": 1,
+      "Azure subscription procurement & creation": 1,
+      "Azure Migrate setup (Agentless Hyper-V/VMWare)": 1,
+      "Virtual network creation & hardening (inclusive of private access / endpoint)": 1,
+      "Virtual machine migration - per 5 VMs": 1,
+      "Azure VPN Gateway creation & site to site configuration": 1,
+      "Configuration of Backup Vault & Policies": 1,
+      "Azure Bastion setup": 1
+    },
+    "Medium Setup (Hybrid, 5-7 Servers)": {
+      "Prescoping Consultancy call to discuss migration plans and cost optimisation with follow up report": 1,
+      "Azure subscription procurement & creation": 1,
+      "Azure Migrate setup (Mobility Agent for Physical servers)": 1,
+      "Virtual network creation & hardening (inclusive of private access / endpoint)": 1,
+      "Virtual machine migration - per 5 VMs": 1,
+      "Azure VPN Gateway creation & site to site configuration": 1,
+      "Azure VPN point to site configuration (per 25 users)": 1,
+      "Configuration of Backup Vault & Policies": 1,
+      "Azure Bastion setup": 1,
+      "FSLogix Storage Account creation & Domain Join": 1
+    },
+    "Large Setup (AVD + SQL + 10+ Servers)": {
+      "Prescoping Consultancy call to discuss migration plans and cost optimisation with follow up report": 1,
+      "Azure subscription procurement & creation": 1,
+      "Azure Migrate setup (Mobility Agent for Physical servers)": 1,
+      "Virtual network creation & hardening (inclusive of private access / endpoint)": 1,
+      "Virtual machine migration - per 5 VMs": 2,
+      "Azure VPN Gateway creation & site to site configuration": 1,
+      "Azure VPN point to site configuration (per 25 users)": 1,
+      "Configuration of Backup Vault & Policies": 1,
+      "AVD Hostpool, Workspace & Application Group Creation": 1,
+      "AVD Golden Image Creation (UAT)": 1,
+      "AVD Golden Image Sysprep and Go live": 1,
+      "AVD Session Host Deployment with Golden Image (Per VM)": 3,
+      "FSLogix Storage Account Kerberos Entra authentication": 1,
+      "Azure Bastion setup": 1
+    },
+    "Azure New Infrastructure": {
+    "Azure New Infrastructure - Small Business Setup": {
+      "Prescoping Consultancy call to discussplans and cost optimisation with follow up report": 1,
+      "FSLogix Storage Account Kerberos Entra authentication": 1
+    },
+    "Azure New Infrastructure - Medium Business Setup": {
+      "Prescoping Consultancy call to discussplans and cost optimisation with follow up report": 1,
+      "Azure subscription procurement & creation": 1,
+      "Azure VPN Gateway creation & site to site configuration": 1,
+      "Azure VPN point to site configuration (per 25 users)": 1,
+      "FSLogix Storage Account Kerberos Entra authentication": 2
+    },
+    "Azure New Infrastructure - Large Business Setup": {
+      "Prescoping Consultancy call to discussplans and cost optimisation with follow up report": 1,
+      "Azure subscription procurement & creation": 1,
+      "Azure VPN Gateway creation & site to site configuration": 2,
+      "Azure VPN point to site configuration (per 25 users)": 2,
+      "FSLogix Storage Account Kerberos Entra authentication": 3
+    }
+  },
+  "Sharepoint & Entra Join": {
+    "Sharepoint & Entra Join - Small Business Setup": {
+      "Consultation session to review current file share structure and layout desired Sharepoint structure": 1,
+      "Migrate User's personal data to one drive (per 25 users)": 1,
+      "Creation of script to migrate the workstations to Entra": 1,
+      "Migration of workstations (per 7 workstations": 1
+    },
+    "Sharepoint & Entra Join - Medium Business Setup": {
+      "Consultation session to review current file share structure and layout desired Sharepoint structure": 1,
+      "Sharepoint site & document library design & creation of groups / permissions (per 5 sites / Document libraries)": 1,
+      "Migrate User's personal data to one drive (per 25 users)": 2,
+      "Migrate production data to Sharepoint sites (per 500gb)": 1,
+      "Procure Profwiz licensing and create provisioning package for workstations": 1,
+      "Creation of script to migrate the workstations to Entra": 2,
+      "Migration of workstations (per 7 workstations": 2
+    },
+    "Sharepoint & Entra Join - Large Business Setup": {
+      "Consultation session to review current file share structure and layout desired Sharepoint structure": 1,
+      "Sharepoint site & document library design & creation of groups / permissions (per 5 sites / Document libraries)": 2,
+      "Migrate User's personal data to one drive (per 25 users)": 3,
+      "Migrate production data to Sharepoint sites (per 500gb)": 2,
+      "Procure Profwiz licensing and create provisioning package for workstations": 1,
+      "Creation of script to migrate the workstations to Entra": 3,
+      "Migration of workstations (per 7 workstations": 3
+    }
+  },
+  "Intune": {
+    "Intune - Small Business Setup": {
+      "Digital Transformation Project - Intune BYOD Windows 10/11": 1,
+      "Restrict downloads for unmanaged devices (Sharepoint admin)": 1,
+      "Rollout to devices": 1,
+      "Digital Transformation Project - Intune BYOD iOS": 1,
+      "Device Categories for iOS / Android": 1,
+      "Digital Transformation Project - Intune BYOD Android": 1,
+      "Digital Transformation Project - Intune BYOD MACs": 1,
+      "Digital Transformation Project - Intune Corporate Windows 10": 1,
+      "Device Limit restrictions": 1
+    },
+    "Intune - Medium Business Setup": {
+      "Digital Transformation Project - Intune BYOD Windows 10/11": 2,
+      "Restrict downloads for unmanaged devices (Sharepoint admin)": 2,
+      "Rollout to devices": 2,
+      "Digital Transformation Project - Intune BYOD iOS": 2,
+      "Device Categories for iOS / Android": 2,
+      "Digital Transformation Project - Intune BYOD Android": 2,
+      "Digital Transformation Project - Intune BYOD MACs": 2,
+      "Digital Transformation Project - Intune Corporate Windows 10": 2,
+      "Device Limit restrictions": 2
+    },
+    "Intune - Large Business Setup": {
+      "Digital Transformation Project - Intune BYOD Windows 10/11": 3,
+      "Restrict downloads for unmanaged devices (Sharepoint admin)": 3,
+      "Rollout to devices": 3,
+      "Digital Transformation Project - Intune BYOD iOS": 3,
+      "Device Categories for iOS / Android": 3,
+      "Digital Transformation Project - Intune BYOD Android": 3,
+      "Digital Transformation Project - Intune BYOD MACs": 3,
+      "Digital Transformation Project - Intune Corporate Windows 10": 3,
+      "Device Limit restrictions": 3
+    }
+  }
+}
