@@ -1,12 +1,13 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sales Quote Builder</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sales Quote Builder</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
@@ -64,51 +65,43 @@
   </style>
 </head>
 <body>
-
 <header>
-  <img src="risc.png" alt="Left Logo">
-  <img src="Novem Logo with Name - Copy Larger Border.png" alt="Right Logo">
+<img alt="Left Logo" src="risc.png"/>
+<img alt="Right Logo" src="Novem Logo with Name - Copy Larger Border.png"/>
 </header>
-
 <h1>Sales Quote Builder</h1>
-
 <div class="controls">
-  <label for="sheetSelect">Select Project Type:</label>
-  <select id="sheetSelect" onchange="renderTable()"></select>
-
-  <label for="scenarioSelect" id="scenarioLabel">Select Scenario:</label>
-  <select id="scenarioSelect" onchange="applyScenario()"></select>
+<label for="sheetSelect">Select Project Type:</label>
+<select id="sheetSelect" onchange="renderTable()"></select>
+<label for="scenarioSelect" id="scenarioLabel">Select Scenario:</label>
+<select id="scenarioSelect" onchange="applyScenario()"></select>
 </div>
-
 <table id="quote-table">
-  <thead>
-    <tr>
-      <th><input id="toggleAll" type="checkbox" onchange="toggleSelectAll(this)"> Select</th>
-      <th>Task</th>
-      <th>Rate Type</th>
-      <th>Duration (Days)</th>
-      <th>Rate Per Day</th>
-      <th>Quantity</th>
-      <th>Cost</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-  <tfoot>
-    <tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
-    <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
-    <tr><td colspan="6">Grand Total</td><td id="grand-total">£0.00</td></tr>
-    <tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
-  </tfoot>
+<thead>
+<tr>
+<th><input id="toggleAll" onchange="toggleSelectAll(this)" type="checkbox"/> Select</th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+<tfoot>
+<tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
+<tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
+<tr><td colspan="6">Grand Total</td><td id="grand-total">£0.00</td></tr>
+<tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
+</tfoot>
 </table>
-
 <div class="pm-control">
-  <label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label>
+<label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label>
 </div>
-
 <div style="text-align:center">
-  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+<button class="btn" onclick="downloadPDF()">Download PDF</button>
 </div>
-
 <script>
 // allData must be defined directly in this script tag (paste your dataset here)
 const allData = {
@@ -321,49 +314,49 @@ const allData = {
       "Quantity": 1
     },
     {
-      "Task": "AVD Golden Image Creation (UAT)",
+      "Task": "AVD Golden Image Creation (UAT)", "Description": "Prepare a user-accepted virtual machine image for AVD deployment.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Golden Image Sysprep and Go live",
+      "Task": "AVD Golden Image Sysprep and Go live", "Description": "Generalize and deploy the prepared image into production.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)", "Description": "Deploy session host VMs based on the Golden Image template.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)", "Description": "Deploy session host VMs manually without a prepared image.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Task": "FSLogix Storage Account creation & Domain Join", "Description": "Used with AVD to enable profile containerization for roaming user profiles.",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
-      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Task": "FSLogix Storage Account Kerberos Entra authentication", "Description": "Enables secure authentication for FSLogix profiles using Entra ID.",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
-      "Task": "Azure Bastion setup",
+      "Task": "Azure Bastion setup", "Description": "Azure Bastion allows secure RDP/SSH to VMs without exposing public IPs.",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
@@ -435,42 +428,42 @@ const allData = {
       "Quantity": 1
     },
     {
-      "Task": "AVD Golden Image Creation (UAT)",
+      "Task": "AVD Golden Image Creation (UAT)", "Description": "Prepare a user-accepted virtual machine image for AVD deployment.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Golden Image Sysprep and Go live",
+      "Task": "AVD Golden Image Sysprep and Go live", "Description": "Generalize and deploy the prepared image into production.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)", "Description": "Deploy session host VMs based on the Golden Image template.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)", "Description": "Deploy session host VMs manually without a prepared image.",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
       "Rate Per Day": NaN,
       "Quantity": 1
     },
     {
-      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Task": "FSLogix Storage Account creation & Domain Join", "Description": "Used with AVD to enable profile containerization for roaming user profiles.",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
-      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Task": "FSLogix Storage Account Kerberos Entra authentication", "Description": "Enables secure authentication for FSLogix profiles using Entra ID.",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
@@ -1050,7 +1043,10 @@ function renderTable() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td><input type="checkbox" class="select-task" data-index="${index}" checked onchange="updateQuantityOnSelect(${index})"></td>
-      <td>${row["Task"] || ""}</td>
+      <td>
+  ${row["Task"] || ""}
+  ${row.Description ? `<span class="tooltip-icon" title="${row.Description}"> ⓘ</span>` : ""}
+</td>
       <td>${row["Rate Type"] || ""}</td>
       <td>${row["Duration (Days)"] || 0}</td>
       <td>${row["Rate Per Day"] || 0}</td>
@@ -1173,6 +1169,5 @@ function downloadPDF() {
 
 window.addEventListener("DOMContentLoaded", loadScenarios);
 </script>
-
 </body>
 </html>
