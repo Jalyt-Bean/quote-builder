@@ -8,7 +8,7 @@
   "responseOverrides": {
     "unauthorized": {
       "statusCode": 302,
-      "redirect": "/.auth/login/aad?post_login_redirect_uri=/"
+      "redirect": "/.auth/login/aad"
     }
   }
 }
