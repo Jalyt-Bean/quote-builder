@@ -1034,6 +1034,70 @@
   // Paste your existing JS functions below: renderTable(), calculateTotal(), etc.
 </script>
 
+
+<script>
+  let scenarios = {};
+  const scenarioSelect = document.getElementById("scenarioSelect");
+  const scenarioLabel = document.getElementById("scenarioLabel");
+
+  async function loadScenarios() {
+    try {
+      const response = await fetch("scenarios.json");
+      scenarios = await response.json();
+      updateScenarioDropdown();
+    } catch (error) {
+      console.error("Failed to load scenarios.json", error);
+    }
+  }
+
+  function updateScenarioDropdown() {
+    const currentSheet = document.getElementById("sheetSelect").value;
+    const options = scenarios[currentSheet] || {};
+    scenarioSelect.innerHTML = "";
+
+    if (Object.keys(options).length > 0) {
+      scenarioSelect.style.display = "inline";
+      scenarioLabel.style.display = "inline";
+      scenarioSelect.innerHTML = `<option value="">-- Select Scenario --</option>`;
+      Object.keys(options).forEach(name => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        scenarioSelect.appendChild(opt);
+      });
+    } else {
+      scenarioSelect.style.display = "none";
+      scenarioLabel.style.display = "none";
+    }
+  }
+
+  function applyScenario() {
+    const currentSheet = document.getElementById("sheetSelect").value;
+    const selectedScenario = scenarioSelect.value;
+    const currentScenarios = scenarios[currentSheet] || {};
+    const tasks = currentScenarios[selectedScenario];
+
+    if (!tasks) return;
+
+    const data = allData[currentSheet] || [];
+    data.forEach((row, index) => {
+      const taskName = row["Task"];
+      const shouldSelect = tasks.hasOwnProperty(taskName);
+      const qty = shouldSelect ? tasks[taskName] : 0;
+
+      document.querySelector(`.select-task[data-index='${index}']`).checked = shouldSelect;
+      document.querySelector(`.quantity[data-index='${index}']`).value = qty;
+    });
+
+    calculateTotal();
+  }
+
+  window.onload = function () {
+    loadScenarios();
+    if (typeof init === "function") init();  // call existing logic after loading
+  };
+</script>
+
 </body>
 </html>
   }
