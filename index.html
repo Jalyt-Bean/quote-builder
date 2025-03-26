@@ -81,17 +81,17 @@
       const res = await fetch("/.auth/me");
       if (res.status === 401) {
         // Not authenticated
-        window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
+        // window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
       } else {
         const data = await res.json();
         if (!data.clientPrincipal) {
-          window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
+          // window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
         }
       }
     } catch (err) {
       console.error("Authentication check failed", err);
       // Last-resort fallback
-      window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
+      // window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
     }
   })();
 </script>
