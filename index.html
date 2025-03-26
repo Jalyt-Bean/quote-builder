@@ -76,20 +76,24 @@
 </header>
 
 <script>
-  // Check if user is logged in
-  fetch("/.auth/me")
-    .then(res => res.json())
-    .then(data => {
-      if (!data.clientPrincipal) {
-        // If not logged in, redirect to Entra ID login
+  (async () => {
+    try {
+      const res = await fetch("/.auth/me");
+      if (res.status === 401) {
+        // Not authenticated
         window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
+      } else {
+        const data = await res.json();
+        if (!data.clientPrincipal) {
+          window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
+        }
       }
-    })
-    .catch(err => {
-      console.error("Auth check failed", err);
-      // fallback redirect just in case
+    } catch (err) {
+      console.error("Authentication check failed", err);
+      // Last-resort fallback
       window.location.href = "/.auth/login/aad?post_login_redirect_uri=/";
-    });
+    }
+  })();
 </script>
   
 <h1>Sales Quote Builder</h1>
