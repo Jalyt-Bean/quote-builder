@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
   Promise.all([
     fetch("allData.json").then(res => res.json()),
     fetch("scenarios.json").then(res => res.json()),
-    fetch("tooltips_normalized.json").then(res => res.json())
+    fetch("tooltips.json").then(res => res.json())
   ])
   .then(([allDataResp, scenariosResp, tooltipsResp]) => {
     allData = allDataResp;
@@ -376,7 +376,7 @@ window.addEventListener("DOMContentLoaded", () => {
   Promise.all([
     fetch("allData.json").then(res => res.json()),
     fetch("scenarios.json").then(res => res.json()),
-    fetch("tooltips_normalized.json").then(res => res.json())
+    fetch("tooltips.json").then(res => res.json())
   ])
   .then(([allDataResp, scenariosResp, tooltipsResp]) => {
     allData = allDataResp;
