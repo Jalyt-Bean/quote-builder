@@ -82,40 +82,37 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   
 .tooltip-icon {
-  margin-left: 5px;
-  cursor: help;
-  font-size: 14px;
-  color: #007bff;
   position: relative;
+  display: inline-block;
+  color: #3498db;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+.tooltip-icon::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  opacity: 0;
+  width: 240px;
+  background-color: #222;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  white-space: pre-line;
 }
 
 .tooltip-icon:hover::after {
-  content: attr(title);
-  white-space: pre-line;
-  position: absolute;
-  bottom: 125%;
-  left: 0;
-  background-color: #1e1e2f;
-  color: #fff;
-  padding: 8px 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  min-width: 200px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-  pointer-events: none;
+  visibility: visible;
   opacity: 1;
-}
-
-.tooltip-icon:hover::before {
-  content: '';
-  position: absolute;
-  bottom: 115%;
-  left: 10px;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent #1e1e2f transparent;
 }
 </style>
 </head>
