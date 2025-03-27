@@ -211,28 +211,28 @@
       "Task": "AVD Golden Image Creation (UAT)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -325,28 +325,28 @@
       "Task": "AVD Golden Image Creation (UAT)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
       "Rate Type": "PS Rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": NaN,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -460,65 +460,65 @@
     },
     {
       "Task": "Creation of dynamic groups",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Enrolment Restrictions",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Enabled Automatic Enrolment",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Configuration of Conditional Access",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Compliance Policy creation",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Restrict downloads for unmanaged devices (Sharepoint admin)",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "One drive policy - Disable known folder move",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "App deployment for Office",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Rollout to devices",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -530,51 +530,51 @@
     },
     {
       "Task": "Apple Enrolment Token",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Dynamic Groups",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Conditional Access Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Compliance Policy with notifications",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "App deployment",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Device Categories for iOS / Android",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "User instructions",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -586,51 +586,51 @@
     },
     {
       "Task": "Link Android Store",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Dynamic Groups",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Conditional Access Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Compliance Policy with notifications",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Configuration Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "App deployment",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "User instructions",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -642,44 +642,44 @@
     },
     {
       "Task": "Apple Enrolment Token",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Dynamic Groups",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Enrolment Restrictions",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Conditional Access Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Compliance Policy with notifications (create email template)",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "App deployment",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
@@ -691,100 +691,100 @@
     },
     {
       "Task": "Company Branding",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Enabled Automatic Enrolment",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Device Limit restrictions",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Dynamic Groups",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Deployment profile",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Enrolment Status page",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Compliance Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Windows Update Profile",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "MDM Security Baseline",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Bit Locker",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "One Drive Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "SharePoint Sync Policy",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "App Deployment for Office",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     },
     {
       "Task": "Configuration for Wi-Fi",
-      "Rate Type": NaN,
-      "Duration (Days)": NaN,
-      "Rate Per Day": NaN,
+      "Rate Type": null,
+      "Duration (Days)": null,
+      "Rate Per Day": null,
       "Quantity": 1
     }
   ],
