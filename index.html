@@ -1176,7 +1176,10 @@ function downloadPDF() {
   doc.save(\`\${currentSheet}_quote.pdf\`);
 }
 
-window.addEventListener("DOMContentLoaded", loadScenarios);
+window.addEventListener("DOMContentLoaded", () => {
+  populateSheets();
+  loadScenarios();
+});
 </script>
 
 </body>
