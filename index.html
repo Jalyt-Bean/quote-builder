@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professional Services Labour Calculator</title>
+  <title>Quote Builder</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -281,6 +281,43 @@ function calculateTotal() {
 }
 
     loadData();
-  </script>
+  
+function generateSOW() {
+  const tasks = allData[currentSheet];
+  let output = `Project Type: ${currentSheet}\n`;
+  const scenario = document.getElementById("scenarioSelect").value;
+  if (scenario) output += `Scenario: ${scenario}\n`;
+  output += `\nSelected Tasks:\n`;
+
+  tasks.forEach((task, index) => {
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    if (selected && qty > 0) {
+      const name = task["Task"];
+      const duration = task["Duration (Days)"];
+      const rateType = task["Rate Type"];
+      const description = tooltips[name.trim().toLowerCase()] || "";
+      output += `- ${name} (x${qty}, ${duration} days @ ${rateType})\n  ${description}\n`;
+    }
+  });
+
+  output += `\nBreakdown:\n`;
+  output += `PS Days: ${document.getElementById("ps-days").textContent}\n`;
+  output += `Engineering Days: ${document.getElementById("engineering-days").textContent}\n`;
+  output += `Consultancy Days: ${document.getElementById("consultancy-days").textContent}\n`;
+  output += `Total Days: ${document.getElementById("total-days").textContent}\n`;
+  output += `Grand Total: ${document.getElementById("grand-total").textContent}\n`;
+
+  document.getElementById("sowOutput").value = output;
+}
+
+</script>
+
+<div class="sow-section" style="margin-top: 3rem;">
+  <h2>Statement of Works Summary</h2>
+  <button onclick="generateSOW()" class="btn">Generate SoW Summary</button>
+  <textarea id="sowOutput" rows="15" style="width:100%; margin-top:1rem;" readonly></textarea>
+</div>
+
 </body>
 </html>
