@@ -245,15 +245,15 @@ function calculateTotal() {
     const rate = parseFloat(row["Rate Per Day"]) || 0;
     const cost = selected ? duration * rate * qty : 0;
     const days = selected ? duration * qty : 0;
-    document.getElementById(\`cost-\${index}\`).textContent = \`£\${cost.toFixed(2)}\`;
+    document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
     total += cost;
     totalDays += days;
   });
   const pmRequired = document.getElementById("pmRequired").checked;
   const pmFee = pmRequired ? total * 0.2 : 0;
-  document.getElementById("total").textContent = \`£\${total.toFixed(2)}\`;
-  document.getElementById("pm-fee").textContent = \`£\${pmFee.toFixed(2)}\`;
-  document.getElementById("grand-total").textContent = \`£\${(total + pmFee).toFixed(2)}\`;
+  document.getElementById("total").textContent = `£${total.toFixed(2)}`;
+  document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
+  document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
   document.getElementById("total-days").textContent = totalDays.toFixed(1);
 }
 
@@ -301,7 +301,7 @@ function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(12);
-  doc.text(\`Quote - \${currentSheet}\`, 10, 10);
+  doc.text(`Quote - ${currentSheet}`, 10, 10);
   let y = 20;
 
   allData[currentSheet].forEach((row, index) => {
@@ -311,18 +311,18 @@ function downloadPDF() {
     const rate = parseFloat(row["Rate Per Day"]) || 0;
     if (selected && (duration > 0 || rate > 0)) {
       const cost = duration * rate * qty;
-      doc.text(\`- \${row["Task"] || "Untitled Task"}: £\${cost.toFixed(2)}\`, 10, y);
+      doc.text(`- ${row["Task"] || "Untitled Task"}: £${cost.toFixed(2)}`, 10, y);
       y += 10;
     }
   });
 
   y += 10;
-  doc.text(\`Total: \${document.getElementById("total").textContent}\`, 10, y);
-  doc.text(\`PM Fee (20%): \${document.getElementById("pm-fee").textContent}\`, 10, y + 10);
-  doc.text(\`Grand Total: \${document.getElementById("grand-total").textContent}\`, 10, y + 20);
-  doc.text(\`Total Days Required: \${document.getElementById("total-days").textContent}\`, 10, y + 30);
+  doc.text(`Total: ${document.getElementById("total").textContent}`, 10, y);
+  doc.text(`PM Fee (20%): ${document.getElementById("pm-fee").textContent}`, 10, y + 10);
+  doc.text(`Grand Total: ${document.getElementById("grand-total").textContent}`, 10, y + 20);
+  doc.text(`Total Days Required: ${document.getElementById("total-days").textContent}`, 10, y + 30);
 
-  doc.save(\`\${currentSheet}_quote.pdf\`);
+  doc.save(`${currentSheet}_quote.pdf`);
 }
 
 window.addEventListener("DOMContentLoaded", loadScenarios);
