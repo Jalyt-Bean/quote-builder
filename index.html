@@ -244,7 +244,6 @@ function downloadFullPDF() {
 
   doc.save(`Quote_SoW_${currentSheet.replace(/\s+/g, "_")}.pdf`);
 }
-
 </script></head>
 <body>
 <h1>Quote Builder</h1>
@@ -540,8 +539,7 @@ function downloadSOWDocx() {
 </div>
 <button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button>
 <div style="text-align:center; margin-top: 2rem;">
-  <button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
+<button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
 </div>
-
 </body>
 </html>
