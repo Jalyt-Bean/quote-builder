@@ -1,116 +1,1183 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sales Quote Builder</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
       padding: 2rem;
-      background: #f9f9f9;
+      background: #f5f5f5;
     }
-
-    .task-name {
+    header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
-    }
-
-    .tooltip-icon {
-      width: 18px;
-      height: 18px;
-      fill: #0078d4;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .tooltip-icon:hover {
-      transform: scale(1.15);
-    }
-
-    .tooltip-container {
-      position: relative;
-      display: inline-block;
-    }
-
-    .tooltip-text {
-      visibility: hidden;
-      width: 220px;
-      background-color: #333;
-      color: #fff;
-      text-align: left;
-      padding: 0.6rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .tooltip-container:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .task-row {
       margin-bottom: 1rem;
+    }
+    header img {
+      height: 60px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    select, label {
+      margin: 0 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background: #0078d4;
+      color: white;
+    }
+    tfoot td {
+      font-weight: bold;
+    }
+    .btn {
+      margin: 1rem 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #0078d4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .pm-control {
+      margin-top: 1rem;
+    }
+    .tooltip-icon {
+      margin-left: 5px;
+      cursor: help;
+      color: #0078d4;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>Premium Tooltip Example</h1>
 
-  <div class="task-row">
-    <div class="task-name">
-      Azure Bastion setup
-      <div class="tooltip-container">
-        <svg class="tooltip-icon" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" stroke="none" fill="#0078d4"/>
-          <text x="12" y="16" text-anchor="middle" fill="white" font-size="14px" font-family="Arial" dy=".3em">?</text>
-        </svg>
-        <div class="tooltip-text">
-          Azure Bastion provides secure RDP and SSH access to virtual machines directly through the Azure portal without exposing them to the public internet.
-        </div>
-      </div>
-    </div>
-  </div>
+<header>
+  <img src="risc.png" alt="Left Logo">
+  <img src="Novem Logo with Name - Copy Larger Border.png" alt="Right Logo">
+</header>
 
-  <div class="task-row">
-    <div class="task-name">
-      FSLogix Storage Account creation & Domain Join
-      <div class="tooltip-container">
-        <svg class="tooltip-icon" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" stroke="none" fill="#0078d4"/>
-          <text x="12" y="16" text-anchor="middle" fill="white" font-size="14px" font-family="Arial" dy=".3em">?</text>
-        </svg>
-        <div class="tooltip-text">
-          Creates a storage account for FSLogix profile containers, enabling persistent user profiles across AVD session hosts.
-        </div>
-      </div>
-    </div>
-  </div>
+<h1>Sales Quote Builder</h1>
 
-  <div class="task-row">
-    <div class="task-name">
-      AVD Golden Image Creation (UAT)
-      <div class="tooltip-container">
-        <svg class="tooltip-icon" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" stroke="none" fill="#0078d4"/>
-          <text x="12" y="16" text-anchor="middle" fill="white" font-size="14px" font-family="Arial" dy=".3em">?</text>
-        </svg>
-        <div class="tooltip-text">
-          Builds a standardized AVD image with pre-configured settings and apps for User Acceptance Testing (UAT) before deployment.
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="controls">
+  <label for="sheetSelect">Select Project Type:</label>
+  <select id="sheetSelect" onchange="renderTable()"></select>
+
+  <label for="scenarioSelect" id="scenarioLabel">Select Scenario:</label>
+  <select id="scenarioSelect" onchange="applyScenario()"></select>
+</div>
+
+<table id="quote-table">
+  <thead>
+    <tr>
+      <th><input id="toggleAll" type="checkbox" onchange="toggleSelectAll(this)"> Select</th>
+      <th>Task</th>
+      <th>Rate Type</th>
+      <th>Duration (Days)</th>
+      <th>Rate Per Day</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+  <tfoot>
+    <tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
+    <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
+    <tr><td colspan="6">Grand Total</td><td id="grand-total">£0.00</td></tr>
+    <tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
+  </tfoot>
+</table>
+
+<div class="pm-control">
+  <label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label>
+</div>
+
+<div style="text-align:center">
+  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<script>
+const allData = {
+  "New Server Builds": [
+    {
+      "Task": "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - Domain Controller",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - File Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - SQL Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - IIS Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - RDS Connection Broker & Gateway ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - RDS Session Host",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Transfer FSMO Roles",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Liaise with third party to assist with data and application move",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configure Datto BCDR",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Install Datto BCDR agent - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Data Migration between File servers (per 500GB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Database Migration between SQL servers (per DB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Physical server decommission",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Travel Time for Field Engineer",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    }
+  ],
+  "Fortigate Installs": [
+    {
+      "Task": "Fortigate firewall WAN/LAN and default ACL configuration ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Fortigate UTM configuration - Web Filter",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "On-Prem to Azure": [
+    {
+      "Task": "Prescoping Consultancy call to discuss migration plans and cost optimisation with follow up report",
+      "Rate Type": "Consultancy rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 1100.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure subscription procurement & creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Migrate setup (Agentless Hyper-V/VMWare)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Migrate setup (Mobility Agent for Physical servers)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual machine migration - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 2.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Liaise with third party to assist with data and application move",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN Gateway creation & site to site configuration",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN point to site configuration (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Backup Vault & Policies",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Hostpool, Workspace & Application Group Creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Creation (UAT)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Sysprep and Go live",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure Bastion setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Physical server decommission",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    }
+  ],
+  "Azure New Infrastructure": [
+    {
+      "Task": "Prescoping Consultancy call to discussplans and cost optimisation with follow up report",
+      "Rate Type": "Consultancy rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 1100.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure subscription procurement & creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Virtual machine migration - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 2.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN Gateway creation & site to site configuration",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure VPN point to site configuration (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Backup Vault & Policies",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Hostpool, Workspace & Application Group Creation",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Creation (UAT)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Golden Image Sysprep and Go live",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
+      "Rate Type": "PS Rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account creation & Domain Join",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "FSLogix Storage Account Kerberos Entra authentication",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of Azure SQL database (single DB)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of Azure SQL Database (Elastic)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Azure bastion setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "Sharepoint & Entra Join": [
+    {
+      "Task": "Consultation session to review current file share structure and layout desired Sharepoint structure",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Sharepoint site & document library design & creation of groups / permissions (per 5 sites / Document libraries)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Installation of Sharepoint migration tool on pre-existing file server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Setup pilot of batch data and get feedback from the client",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migrate User's personal data to one drive (per 25 users)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migrate production data to Sharepoint sites (per 500gb)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Procure Profwiz licensing and create provisioning package for workstations",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of script to migrate the workstations to Entra",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Migration of workstations (per 7 workstations",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ],
+  "Intune": [
+    {
+      "Task": "Digital Transformation Project - Intune BYOD Windows 10/11",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Creation of dynamic groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enabled Automatic Enrolment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration of Conditional Access",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy creation",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Restrict downloads for unmanaged devices (Sharepoint admin)",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "One drive policy - Disable known folder move",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment for Office",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Rollout to devices",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD iOS",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Apple Enrolment Token",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Device Categories for iOS / Android",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "User instructions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD Android",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Link Android Store",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "User instructions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune BYOD MACs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Apple Enrolment Token",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Conditional Access Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy with notifications (create email template)",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App deployment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Digital Transformation Project - Intune Corporate Windows 10",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 3.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Company Branding",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enabled Automatic Enrolment",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Device Limit restrictions",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Dynamic Groups",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Deployment profile",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Enrolment Status page",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Compliance Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Windows Update Profile",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "MDM Security Baseline",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Bit Locker",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "One Drive Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "SharePoint Sync Policy",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "App Deployment for Office",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    },
+    {
+      "Task": "Configuration for Wi-Fi",
+      "Rate Type": NaN,
+      "Duration (Days)": NaN,
+      "Rate Per Day": NaN,
+      "Quantity": 1
+    }
+  ],
+  "Services Only": [
+    {
+      "Task": "Huntress ITDR (MDR for M365)",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Huntress EDR",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Mesh Unified",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Exclaimer - 1 signature for whole company as standard - design not included",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Exclaimer - additional signatures based on role / department",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Datto BCDR - Configure Datto BCDR Appliance",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Datto BCDR - Install Datto BCDR agent - per 5 VMs",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Redstor M365 backup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (On-premises) - Portal setup, LDAP configuration + 1 printer ",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (On-premises) - extra printer setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (Cloud Deployment) - Portal setup, Entra ID registrion + 1 printer",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Printerlogic (Cloud Deployment) - extra printer setup",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "uSecure - Portal setup, Creation of user groups and configuration of autophish",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Panda / Watchguard Deployment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Vonahi vPentest Deployment",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+  ]
+}; 
+
+let scenarios = {};
+let currentSheet = "";
+const sheetSelect = document.getElementById("sheetSelect");
+const scenarioSelect = document.getElementById("scenarioSelect");
+const scenarioLabel = document.getElementById("scenarioLabel");
+const tbody = document.querySelector("#quote-table tbody");
+
+async function loadScenarios() {
+  try {
+    const res = await fetch("scenarios.json");
+    scenarios = await res.json();
+    populateSheets();
+  } catch (err) {
+    console.error("Error loading scenarios.json", err);
+  }
+}
+
+function populateSheets() {
+  Object.keys(allData).forEach(sheet => {
+    const opt = document.createElement("option");
+    opt.value = sheet;
+    opt.textContent = sheet;
+    sheetSelect.appendChild(opt);
+  });
+
+  if (Object.keys(allData).length > 0) {
+    currentSheet = Object.keys(allData)[0];
+    renderTable();
+  }
+}
+
+function renderTable() {
+  currentSheet = sheetSelect.value;
+  tbody.innerHTML = "";
+  const data = allData[currentSheet];
+
+  data.forEach((row, index) => {
+    const tooltipText = `Duration: ${row["Duration (Days)"] || 0}d\nRate: £${row["Rate Per Day"] || 0}`;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input type="checkbox" class="select-task" data-index="${index}" checked onchange="updateQuantityOnSelect(${index})"></td>
+      <td>${row["Task"] || ""}<span class="tooltip-icon" title="${tooltipText}">&#9432;</span></td>
+      <td>${row["Rate Type"] || ""}</td>
+      <td>${row["Duration (Days)"] || 0}</td>
+      <td>${row["Rate Per Day"] || 0}</td>
+      <td><input type="number" value="${row.Quantity || 1}" min="0" class="quantity" data-index="${index}" onchange="calculateTotal()"></td>
+      <td class="cost" id="cost-${index}">£0.00</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  updateScenarioDropdown();
+  calculateTotal();
+}
+
+function updateQuantityOnSelect(index) {
+  const checkbox = document.querySelector(\`.select-task[data-index="\${index}"]\`);
+  const qtyInput = document.querySelector(\`.quantity[data-index="\${index}"]\`);
+  qtyInput.value = checkbox.checked ? 1 : 0;
+  calculateTotal();
+}
+
+function toggleSelectAll(masterCheckbox) {
+  const checkboxes = document.querySelectorAll(".select-task");
+  checkboxes.forEach(cb => {
+    const index = cb.getAttribute("data-index");
+    cb.checked = masterCheckbox.checked;
+    document.querySelector(\`.quantity[data-index="\${index}"]\`).value = masterCheckbox.checked ? 1 : 0;
+  });
+  calculateTotal();
+}
+
+function calculateTotal() {
+  let total = 0;
+  let totalDays = 0;
+  allData[currentSheet].forEach((row, index) => {
+    const selected = document.querySelector(\`.select-task[data-index='\${index}']\`).checked;
+    const qty = parseInt(document.querySelector(\`.quantity[data-index='\${index}']\`).value) || 0;
+    const duration = parseFloat(row["Duration (Days)"]) || 0;
+    const rate = parseFloat(row["Rate Per Day"]) || 0;
+    const cost = selected ? duration * rate * qty : 0;
+    const days = selected ? duration * qty : 0;
+    document.getElementById(\`cost-\${index}\`).textContent = \`£\${cost.toFixed(2)}\`;
+    total += cost;
+    totalDays += days;
+  });
+  const pmRequired = document.getElementById("pmRequired").checked;
+  const pmFee = pmRequired ? total * 0.2 : 0;
+  document.getElementById("total").textContent = \`£\${total.toFixed(2)}\`;
+  document.getElementById("pm-fee").textContent = \`£\${pmFee.toFixed(2)}\`;
+  document.getElementById("grand-total").textContent = \`£\${(total + pmFee).toFixed(2)}\`;
+  document.getElementById("total-days").textContent = totalDays.toFixed(1);
+}
+
+function updateScenarioDropdown() {
+  const options = scenarios[currentSheet] || {};
+  scenarioSelect.style.display = "inline";
+  scenarioLabel.style.display = "inline";
+  scenarioSelect.innerHTML = "";
+
+  if (Object.keys(options).length > 0) {
+    scenarioSelect.innerHTML = `<option value="">-- Select Scenario --</option>`;
+    Object.keys(options).forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      scenarioSelect.appendChild(opt);
+    });
+  } else {
+    const opt = document.createElement("option");
+    opt.textContent = "-- No scenarios available --";
+    opt.disabled = true;
+    scenarioSelect.appendChild(opt);
+  }
+}
+
+function applyScenario() {
+  const selectedScenario = scenarioSelect.value;
+  const currentScenarios = scenarios[currentSheet] || {};
+  const tasks = currentScenarios[selectedScenario];
+
+  if (!tasks) return;
+
+  allData[currentSheet].forEach((row, index) => {
+    const taskName = row["Task"];
+    const shouldSelect = tasks.hasOwnProperty(taskName);
+    const qty = shouldSelect ? tasks[taskName] : 0;
+    document.querySelector(\`.select-task[data-index='\${index}']\`).checked = shouldSelect;
+    document.querySelector(\`.quantity[data-index='\${index}']\`).value = qty;
+  });
+
+  calculateTotal();
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(12);
+  doc.text(\`Quote - \${currentSheet}\`, 10, 10);
+  let y = 20;
+
+  allData[currentSheet].forEach((row, index) => {
+    const selected = document.querySelector(\`.select-task[data-index='\${index}']\`).checked;
+    const qty = parseInt(document.querySelector(\`.quantity[data-index='\${index}']\`).value) || 0;
+    const duration = parseFloat(row["Duration (Days)"]) || 0;
+    const rate = parseFloat(row["Rate Per Day"]) || 0;
+    if (selected && (duration > 0 || rate > 0)) {
+      const cost = duration * rate * qty;
+      doc.text(\`- \${row["Task"] || "Untitled Task"}: £\${cost.toFixed(2)}\`, 10, y);
+      y += 10;
+    }
+  });
+
+  y += 10;
+  doc.text(\`Total: \${document.getElementById("total").textContent}\`, 10, y);
+  doc.text(\`PM Fee (20%): \${document.getElementById("pm-fee").textContent}\`, 10, y + 10);
+  doc.text(\`Grand Total: \${document.getElementById("grand-total").textContent}\`, 10, y + 20);
+  doc.text(\`Total Days Required: \${document.getElementById("total-days").textContent}\`, 10, y + 30);
+
+  doc.save(\`\${currentSheet}_quote.pdf\`);
+}
+
+window.addEventListener("DOMContentLoaded", loadScenarios);
+</script>
 
 </body>
 </html>
