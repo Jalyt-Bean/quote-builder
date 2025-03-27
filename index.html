@@ -34,6 +34,22 @@ window.addEventListener("DOMContentLoaded", () => {
   .catch(err => console.error("Failed to load JSON:", err));
 });
 
+
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json()),
+    fetch("tooltips.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    tooltips = tooltipsResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
 </script>
   <style>
     body {
@@ -203,7 +219,9 @@ function renderTable() {
     const tooltipIcon = document.createElement("span");
     tooltipIcon.className = "tooltip-icon";
     tooltipIcon.innerHTML = "&#9432;";
-    tooltipIcon.title = `Duration: ${row["Duration (Days)"] || 0}d
+    const taskKey = row["Task"]?.trim()?.toLowerCase();
+    const tooltipText = tooltips?.[taskKey];
+    tooltipIcon.title = tooltipText || `Duration: ${row["Duration (Days)"] || 0}d
 Rate: £${row["Rate Per Day"] || 0}`;
     tdTask.appendChild(tooltipIcon);
     tr.appendChild(tdTask);
@@ -366,6 +384,22 @@ window.addEventListener("DOMContentLoaded", () => {
   .then(([allDataResp, scenariosResp]) => {
     allData = allDataResp;
     scenarios = scenariosResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json()),
+    fetch("tooltips.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    tooltips = tooltipsResp;
     populateSheets();
   })
   .catch(err => console.error("Failed to load JSON:", err));
