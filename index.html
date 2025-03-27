@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quote Builder</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quote Builder</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
@@ -58,46 +59,39 @@
       padding: 0.25rem 0;
     }
   </style>
-</head>
+<script src="https://unpkg.com/docx@8.1.0/build/index.umd.js"></script></head>
 <body>
-  <h1>Quote Builder</h1>
-
-  <label for="projectSelect">Project Type:</label>
-  <select id="projectSelect"></select>
-
-  <label for="scenarioSelect">Scenario:</label>
-  <select id="scenarioSelect"></select>
-
-  <table id="taskTable">
-    <thead>
-      <tr>
-        <th><input type="checkbox" id="toggleAll" /></th>
-        <th>Task</th>
-        <th>Rate Type</th>
-        <th>Duration (Days)</th>
-        <th>Rate Per Day</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div class="summary-card">
-    <h3>Quote Summary</h3>
-    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-    
-    <div class="summary-line"><span>PS Days Required:</span><span id="ps-days">0</span></div>
-    <div class="summary-line"><span>Engineering Days Required:</span><span id="engineering-days">0</span></div>
-    <div class="summary-line"><span>Consultancy Days Required:</span><span id="consultancy-days">0</span></div>
-
-    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
-  </div>
-
-  <script>
+<h1>Quote Builder</h1>
+<label for="projectSelect">Project Type:</label>
+<select id="projectSelect"></select>
+<label for="scenarioSelect">Scenario:</label>
+<select id="scenarioSelect"></select>
+<table id="taskTable">
+<thead>
+<tr>
+<th><input id="toggleAll" type="checkbox"/></th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div class="summary-card">
+<h3>Quote Summary</h3>
+<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+<div class="summary-line"><span>PS Days Required:</span><span id="ps-days">0</span></div>
+<div class="summary-line"><span>Engineering Days Required:</span><span id="engineering-days">0</span></div>
+<div class="summary-line"><span>Consultancy Days Required:</span><span id="consultancy-days">0</span></div>
+<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
+</div>
+<script>
     let allData = {};
     let tooltips = {};
     let scenarios = {};
@@ -311,13 +305,52 @@ function generateSOW() {
   document.getElementById("sowOutput").value = output;
 }
 
+
+
+function downloadSOWDocx() {
+  const { Document, Packer, Paragraph, TextRun } = window.docx;
+
+  const tasks = allData[currentSheet];
+  const doc = new Document();
+
+  const elements = [
+    new Paragraph({ text: `Statement of Works – ${currentSheet}`, heading: "Heading1" }),
+    new Paragraph({ text: "Scope of Work", heading: "Heading2" })
+  ];
+
+  tasks.forEach((task, index) => {
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    if (selected && qty > 0) {
+      const name = task["Task"];
+      const desc = tooltips[name.trim().toLowerCase()] || "";
+      elements.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: `• ${name}`, bold: true }),
+            new TextRun({ text: desc ? ` – ${desc}` : "" })
+          ]
+        })
+      );
+    }
+  });
+
+  doc.addSection({ children: elements });
+
+  Packer.toBlob(doc).then(blob => {
+    const filename = `SoW_${currentSheet.replace(/\s+/g, "_")}.docx`;
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+}
 </script>
-
 <div class="sow-section" style="margin-top: 3rem;">
-  <h2>Statement of Works Summary</h2>
-  <button onclick="generateSOW()" class="btn">Generate SoW Summary</button>
-  <textarea id="sowOutput" rows="15" style="width:100%; margin-top:1rem;" readonly></textarea>
+<h2>Statement of Works Summary</h2>
+<button class="btn" onclick="generateSOW()">Generate SoW Summary</button>
+<textarea id="sowOutput" readonly="" rows="15" style="width:100%; margin-top:1rem;"></textarea>
 </div>
-
-</body>
+<button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button></body>
 </html>
