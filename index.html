@@ -59,7 +59,100 @@
       padding: 0.25rem 0;
     }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/docx@7.7.0/build/docx.umd.js"></script></head>
+<script src="https://cdn.jsdelivr.net/npm/docx@7.7.0/build/docx.umd.js">
+
+function downloadFullPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let y = 10;
+
+  doc.setFontSize(14);
+  doc.text(`Quote – ${currentSheet}`, 10, y);
+  y += 10;
+
+  const scenario = document.getElementById("scenarioSelect").value;
+  if (scenario) {
+    doc.setFontSize(12);
+    doc.text(`Scenario: ${scenario}`, 10, y);
+    y += 10;
+  }
+
+  // Table Header
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'bold');
+  doc.text("Task", 10, y);
+  doc.text("Qty", 90, y);
+  doc.text("Days", 110, y);
+  doc.text("Rate Type", 130, y);
+  doc.text("Cost", 170, y);
+  y += 7;
+  doc.setFont(undefined, 'normal');
+
+  const tasks = allData[currentSheet];
+  let total = 0;
+  let psDays = 0, engDays = 0, conDays = 0;
+
+  tasks.forEach((row, index) => {
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    const duration = parseFloat(row["Duration (Days)"]) || 0;
+    const rate = parseFloat(row["Rate Per Day"]) || 0;
+    const rateType = (row["Rate Type"] || "").toLowerCase();
+    if (selected && qty > 0) {
+      const cost = qty * duration * rate;
+      total += cost;
+
+      if (rateType.includes("consultancy")) conDays += qty * duration;
+      else if (rateType.includes("engineering")) engDays += qty * duration;
+      else psDays += qty * duration;
+
+      const task = row["Task"].slice(0, 55);
+      doc.text(task, 10, y);
+      doc.text(`${qty}`, 90, y);
+      doc.text(`${duration}`, 110, y);
+      doc.text(row["Rate Type"], 130, y);
+      doc.text(`£${cost.toFixed(2)}`, 170, y);
+      y += 7;
+      if (y > 270) { doc.addPage(); y = 10; }
+    }
+  });
+
+  const pmFee = total * 0.2;
+  const grandTotal = total + pmFee;
+  const totalDays = psDays + engDays + conDays;
+
+  y += 10;
+  doc.setFont(undefined, 'bold');
+  doc.text(`PS Days: ${psDays.toFixed(1)} | Engineering Days: ${engDays.toFixed(1)} | Consultancy Days: ${conDays.toFixed(1)}`, 10, y);
+  y += 7;
+  doc.text(`Total Days: ${totalDays.toFixed(1)} | PM Fee (20%): £${pmFee.toFixed(2)} | Grand Total: £${grandTotal.toFixed(2)}`, 10, y);
+
+  // Add Scope
+  y += 15;
+  doc.setFontSize(13);
+  doc.text("Scope of Work", 10, y);
+  y += 10;
+  doc.setFontSize(11);
+  tasks.forEach((task, index) => {
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    if (selected && qty > 0) {
+      const name = task["Task"];
+      const desc = tooltips[name.trim().toLowerCase()] || "";
+      const bullet = `• ${name}${desc ? ' – ' + desc : ''}`;
+      const lines = doc.splitTextToSize(bullet, 180);
+      lines.forEach(line => {
+        if (y > 270) { doc.addPage(); y = 10; }
+        doc.text(line, 10, y);
+        y += 6;
+      });
+    }
+  });
+
+  doc.save(`Quote_SoW_${currentSheet.replace(/\s+/g, "_")}.pdf`);
+}
+
+</script></head>
 <body>
 <h1>Quote Builder</h1>
 <label for="projectSelect">Project Type:</label>
@@ -352,5 +445,10 @@ function downloadSOWDocx() {
 <button class="btn" onclick="generateSOW()">Generate SoW Summary</button>
 <textarea id="sowOutput" readonly="" rows="15" style="width:100%; margin-top:1rem;"></textarea>
 </div>
-<button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button></body>
+<button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button>
+<div style="text-align:center; margin-top: 2rem;">
+  <button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
+</div>
+
+</body>
 </html>
