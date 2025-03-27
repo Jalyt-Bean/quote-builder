@@ -5,34 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sales Quote Builder</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-window.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("allData.json").then(res => res.json()),
-    fetch("scenarios.json").then(res => res.json())
-  ])
-  .then(([allDataResp, scenariosResp]) => {
-    allData = allDataResp;
-    scenarios = scenariosResp;
-    populateSheets();
-  })
-  .catch(err => console.error("Failed to load JSON:", err));
-});
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("allData.json").then(res => res.json()),
-    fetch("scenarios.json").then(res => res.json()),
-    fetch("tooltips.json").then(res => res.json())
-  ])
-  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
-    allData = allDataResp;
-    scenarios = scenariosResp;
-    tooltips = tooltipsResp;
-    populateSheets();
-  })
-  .catch(err => console.error("Failed to load JSON:", err));
-});
+
+
 
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -181,6 +157,7 @@ async function loadScenarios() {
 }
 
 function populateSheets() {
+  sheetSelect.innerHTML = "";
   Object.keys(allData).forEach(sheet => {
     const opt = document.createElement("option");
     opt.value = sheet;
@@ -219,9 +196,7 @@ function renderTable() {
     const tooltipIcon = document.createElement("span");
     tooltipIcon.className = "tooltip-icon";
     tooltipIcon.innerHTML = "&#9432;";
-    const taskKey = row["Task"]?.trim()?.toLowerCase();
-    const tooltipText = tooltips?.[taskKey];
-    tooltipIcon.title = tooltipText || `Duration: ${row["Duration (Days)"] || 0}d
+    tooltipIcon.title = `Duration: ${row["Duration (Days)"] || 0}d
 Rate: £${row["Rate Per Day"] || 0}`;
     tdTask.appendChild(tooltipIcon);
     tr.appendChild(tdTask);
@@ -376,34 +351,10 @@ function downloadPDF() {
 
 window.addEventListener("DOMContentLoaded", loadScenarios);
 
-window.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("allData.json").then(res => res.json()),
-    fetch("scenarios.json").then(res => res.json())
-  ])
-  .then(([allDataResp, scenariosResp]) => {
-    allData = allDataResp;
-    scenarios = scenariosResp;
-    populateSheets();
-  })
-  .catch(err => console.error("Failed to load JSON:", err));
-});
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("allData.json").then(res => res.json()),
-    fetch("scenarios.json").then(res => res.json()),
-    fetch("tooltips.json").then(res => res.json())
-  ])
-  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
-    allData = allDataResp;
-    scenarios = scenariosResp;
-    tooltips = tooltipsResp;
-    populateSheets();
-  })
-  .catch(err => console.error("Failed to load JSON:", err));
-});
+
+
 
 
 window.addEventListener("DOMContentLoaded", () => {
