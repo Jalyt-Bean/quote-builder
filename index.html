@@ -1116,8 +1116,8 @@ Rate: £${row["Rate Per Day"] || 0}`;
 }
 
 function updateQuantityOnSelect(index) {
-  const checkbox = document.querySelector(\`.select-task[data-index="\${index}"]\`);
-  const qtyInput = document.querySelector(\`.quantity[data-index="\${index}"]\`);
+  const checkbox = document.querySelector(`.select-task[data-index="${index}"]`);
+  const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
   qtyInput.value = checkbox.checked ? 1 : 0;
   calculateTotal();
 }
@@ -1127,7 +1127,7 @@ function toggleSelectAll(masterCheckbox) {
   checkboxes.forEach(cb => {
     const index = cb.getAttribute("data-index");
     cb.checked = masterCheckbox.checked;
-    document.querySelector(\`.quantity[data-index="\${index}"]\`).value = masterCheckbox.checked ? 1 : 0;
+    document.querySelector(`.quantity[data-index="${index}"]`).value = masterCheckbox.checked ? 1 : 0;
   });
   calculateTotal();
 }
@@ -1136,8 +1136,8 @@ function calculateTotal() {
   let total = 0;
   let totalDays = 0;
   allData[currentSheet].forEach((row, index) => {
-    const selected = document.querySelector(\`.select-task[data-index='\${index}']\`).checked;
-    const qty = parseInt(document.querySelector(\`.quantity[data-index='\${index}']\`).value) || 0;
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
     const duration = parseFloat(row["Duration (Days)"]) || 0;
     const rate = parseFloat(row["Rate Per Day"]) || 0;
     const cost = selected ? duration * rate * qty : 0;
@@ -1187,8 +1187,8 @@ function applyScenario() {
     const taskName = row["Task"];
     const shouldSelect = tasks.hasOwnProperty(taskName);
     const qty = shouldSelect ? tasks[taskName] : 0;
-    document.querySelector(\`.select-task[data-index='\${index}']\`).checked = shouldSelect;
-    document.querySelector(\`.quantity[data-index='\${index}']\`).value = qty;
+    document.querySelector(`.select-task[data-index="${index}"]`).checked = shouldSelect;
+    document.querySelector(`.quantity[data-index="${index}"]`).value = qty;
   });
 
   calculateTotal();
@@ -1202,8 +1202,8 @@ function downloadPDF() {
   let y = 20;
 
   allData[currentSheet].forEach((row, index) => {
-    const selected = document.querySelector(\`.select-task[data-index='\${index}']\`).checked;
-    const qty = parseInt(document.querySelector(\`.quantity[data-index='\${index}']\`).value) || 0;
+    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
     const duration = parseFloat(row["Duration (Days)"]) || 0;
     const rate = parseFloat(row["Rate Per Day"]) || 0;
     if (selected && (duration > 0 || rate > 0)) {
