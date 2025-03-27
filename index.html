@@ -1032,7 +1032,12 @@ async function loadScenarios() {
 }
 
 function populateSheets() {
+  console.log("populateSheets called", Object.keys(allData)); // Debug
+
+  sheetSelect.innerHTML = ""; // Clear any stale options
+
   Object.keys(allData).forEach(sheet => {
+    console.log("Adding project:", sheet); // Debug
     const opt = document.createElement("option");
     opt.value = sheet;
     opt.textContent = sheet;
@@ -1041,6 +1046,7 @@ function populateSheets() {
 
   if (Object.keys(allData).length > 0) {
     currentSheet = Object.keys(allData)[0];
+    sheetSelect.value = currentSheet; // Set dropdown selection
     renderTable();
   }
 }
