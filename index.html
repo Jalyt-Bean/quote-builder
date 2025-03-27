@@ -56,6 +56,7 @@
   <table id="taskTable">
     <thead>
       <tr>
+        <th><input type="checkbox" id="toggleAll" /></th>
         <th>Task</th>
         <th>Rate Type</th>
         <th>Duration (Days)</th>
@@ -66,10 +67,10 @@
     </thead>
     <tbody></tbody>
     <tfoot>
-      <tr><td colspan="5">Total Selected Cost</td><td id="total">£0.00</td></tr>
-      <tr><td colspan="5">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
-      <tr><td colspan="5">Grand Total</td><td id="grand-total">£0.00</td></tr>
-      <tr><td colspan="5">Total Days Required</td><td id="total-days">0</td></tr>
+      <tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
+      <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
+      <tr><td colspan="6">Grand Total</td><td id="grand-total">£0.00</td></tr>
+      <tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
     </tfoot>
   </table>
 
@@ -140,7 +141,10 @@
       if (!taskSelections) return;
       allData[currentSheet].forEach((task, index) => {
         const qty = taskSelections[task["Task"]] || 0;
-        document.querySelector(`.quantity[data-index="${index}"]`).value = qty;
+        const checkbox = document.querySelector(`.select-task[data-index="${index}"]`);
+        const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+        checkbox.checked = qty > 0;
+        qtyInput.value = qty;
       });
       calculateTotal();
     }
@@ -153,6 +157,20 @@
       rows.forEach((task, index) => {
         const tr = document.createElement("tr");
         const tooltipKey = task["Task"].trim().toLowerCase();
+
+        const tdCheck = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "select-task";
+        checkbox.dataset.index = index;
+        checkbox.checked = false;
+        checkbox.addEventListener("change", () => {
+          const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+          qtyInput.value = checkbox.checked ? 1 : 0;
+          calculateTotal();
+        });
+        tdCheck.appendChild(checkbox);
+        tr.appendChild(tdCheck);
 
         const tooltipIcon = document.createElement("span");
         tooltipIcon.className = "tooltip-icon";
@@ -174,7 +192,7 @@ Rate: £${task["Rate Per Day"] || 0}`;
         const qty = document.createElement("input");
         qty.type = "number";
         qty.min = 0;
-        qty.value = task["Quantity"] || 1;
+        qty.value = 0;
         qty.className = "quantity";
         qty.dataset.index = index;
         qty.addEventListener("input", calculateTotal);
@@ -188,6 +206,17 @@ Rate: £${task["Rate Per Day"] || 0}`;
         tr.appendChild(tdCost);
 
         tbody.appendChild(tr);
+      });
+
+      document.getElementById("toggleAll").addEventListener("change", function() {
+        const checkboxes = document.querySelectorAll(".select-task");
+        checkboxes.forEach(cb => {
+          cb.checked = this.checked;
+          const index = cb.dataset.index;
+          const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+          qtyInput.value = this.checked ? 1 : 0;
+        });
+        calculateTotal();
       });
 
       calculateTotal();
