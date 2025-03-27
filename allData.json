@@ -123,7 +123,7 @@
     },
     {
       "Task": "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
@@ -209,30 +209,30 @@
     },
     {
       "Task": "AVD Golden Image Creation (UAT)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
@@ -323,30 +323,30 @@
     },
     {
       "Task": "AVD Golden Image Creation (UAT)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Golden Image Sysprep and Go live",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with Golden Image (Per VM)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "AVD Session Host Deployment with no Golden Image (Per VM)",
-      "Rate Type": "PS Rate",
+      "Rate Type": "PS rate",
       "Duration (Days)": 1.0,
-      "Rate Per Day": null,
+      "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
