@@ -80,7 +80,44 @@ window.addEventListener("DOMContentLoaded", () => {
       color: #0078d4;
       font-weight: bold;
     }
-  </style>
+  
+.tooltip-icon {
+  margin-left: 5px;
+  cursor: help;
+  font-size: 14px;
+  color: #007bff;
+  position: relative;
+}
+
+.tooltip-icon:hover::after {
+  content: attr(title);
+  white-space: pre-line;
+  position: absolute;
+  bottom: 125%;
+  left: 0;
+  background-color: #1e1e2f;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  min-width: 200px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.tooltip-icon:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 115%;
+  left: 10px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #1e1e2f transparent;
+}
+</style>
 </head>
 <body>
 
