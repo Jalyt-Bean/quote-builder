@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quote Builder</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quote Builder</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
@@ -60,39 +61,34 @@
   </style>
 </head>
 <body>
-  <h1>Quote Builder</h1>
-
-  <label for="projectSelect">Project Type:</label>
-  <select id="projectSelect"></select>
-
-  <label for="scenarioSelect">Scenario:</label>
-  <select id="scenarioSelect"></select>
-
-  <table id="taskTable">
-    <thead>
-      <tr>
-        <th><input type="checkbox" id="toggleAll" /></th>
-        <th>Task</th>
-        <th>Rate Type</th>
-        <th>Duration (Days)</th>
-        <th>Rate Per Day</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div class="summary-card">
-    <h3>Quote Summary</h3>
-    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
-  </div>
-
-  <script>
+<h1>Quote Builder</h1>
+<label for="projectSelect">Project Type:</label>
+<select id="projectSelect"></select>
+<label for="scenarioSelect">Scenario:</label>
+<select id="scenarioSelect"></select>
+<table id="taskTable">
+<thead>
+<tr>
+<th><input id="toggleAll" type="checkbox"/></th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div class="summary-line"><span>PS Days Required:</span><span id="ps-days">0</span></div><div class="summary-line"><span>Engineering Days Required:</span><span id="eng-days">0</span></div><div class="summary-line"><span>Consultancy Days Required:</span><span id="con-days">0</span></div><div class="summary-card">
+<h3>Quote Summary</h3>
+<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
+</div>
+<script>
     let allData = {};
     let tooltips = {};
     let scenarios = {};
@@ -257,9 +253,37 @@ Rate: £${task["Rate Per Day"] || 0}`;
       document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
       document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
       document.getElementById("total-days").textContent = totalDays.toFixed(1);
+      let psDays = 0, engDays = 0, conDays = 0;
+      let sowOutput = "";
+
+      allData[currentSheet].forEach((row, index) => {
+        const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+        const duration = parseFloat(row["Duration (Days)"]) || 0;
+        const rateType = (row["Rate Type"] || "").toLowerCase();
+        if (qty > 0) {
+          if (rateType.includes("consultancy")) conDays += qty * duration;
+          else if (rateType.includes("engineering")) engDays += qty * duration;
+          else psDays += qty * duration;
+
+          const name = row["Task"];
+          const desc = tooltips[name.trim().toLowerCase()] || "";
+          sowOutput += `• ${name}${desc ? " – " + desc : ""}\n`;
+        }
+      });
+
+      document.getElementById("ps-days").textContent = psDays.toFixed(1);
+      document.getElementById("eng-days").textContent = engDays.toFixed(1);
+      document.getElementById("con-days").textContent = conDays.toFixed(1);
+      document.getElementById("sowOutput").value = sowOutput;
+
     }
 
     loadData();
   </script>
+
+<div class="summary-card">
+<h3>Scope of Work Summary</h3>
+<textarea id="sowOutput" readonly="" rows="10" style="width:100%;"></textarea>
+</div>
 </body>
 </html>
