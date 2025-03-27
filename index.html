@@ -1050,17 +1050,64 @@ function renderTable() {
   const data = allData[currentSheet];
 
   data.forEach((row, index) => {
-    const tooltipText = `Duration: ${row["Duration (Days)"] || 0}d\nRate: £${row["Rate Per Day"] || 0}`;
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input type="checkbox" class="select-task" data-index="${index}" checked onchange="updateQuantityOnSelect(${index})"></td>
-      <td>${row["Task"] || ""}<span class="tooltip-icon" title="${tooltipText}">&#9432;</span></td>
-      <td>${row["Rate Type"] || ""}</td>
-      <td>${row["Duration (Days)"] || 0}</td>
-      <td>${row["Rate Per Day"] || 0}</td>
-      <td><input type="number" value="${row.Quantity || 1}" min="0" class="quantity" data-index="${index}" onchange="calculateTotal()"></td>
-      <td class="cost" id="cost-${index}">£0.00</td>
-    `;
+
+    // Checkbox column
+    const tdSelect = document.createElement("td");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "select-task";
+    checkbox.dataset.index = index;
+    checkbox.checked = true;
+    checkbox.addEventListener("change", () => updateQuantityOnSelect(index));
+    tdSelect.appendChild(checkbox);
+    tr.appendChild(tdSelect);
+
+    // Task name with tooltip column
+    const tdTask = document.createElement("td");
+    tdTask.textContent = row["Task"] || "";
+    const tooltipIcon = document.createElement("span");
+    tooltipIcon.className = "tooltip-icon";
+    tooltipIcon.innerHTML = "&#9432;";
+    tooltipIcon.title = `Duration: ${row["Duration (Days)"] || 0}d
+Rate: £${row["Rate Per Day"] || 0}`;
+    tdTask.appendChild(tooltipIcon);
+    tr.appendChild(tdTask);
+
+    // Rate Type column
+    const tdRateType = document.createElement("td");
+    tdRateType.textContent = row["Rate Type"] || "";
+    tr.appendChild(tdRateType);
+
+    // Duration column
+    const tdDuration = document.createElement("td");
+    tdDuration.textContent = row["Duration (Days)"] || 0;
+    tr.appendChild(tdDuration);
+
+    // Rate Per Day column
+    const tdRate = document.createElement("td");
+    tdRate.textContent = row["Rate Per Day"] || 0;
+    tr.appendChild(tdRate);
+
+    // Quantity column
+    const tdQty = document.createElement("td");
+    const inputQty = document.createElement("input");
+    inputQty.type = "number";
+    inputQty.min = 0;
+    inputQty.value = row.Quantity || 1;
+    inputQty.className = "quantity";
+    inputQty.dataset.index = index;
+    inputQty.addEventListener("change", calculateTotal);
+    tdQty.appendChild(inputQty);
+    tr.appendChild(tdQty);
+
+    // Cost column
+    const tdCost = document.createElement("td");
+    tdCost.className = "cost";
+    tdCost.id = `cost-${index}`;
+    tdCost.textContent = "£0.00";
+    tr.appendChild(tdCost);
+
     tbody.appendChild(tr);
   });
 
