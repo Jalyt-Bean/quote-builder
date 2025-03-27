@@ -160,13 +160,13 @@ function downloadFullPDF() {
   let y = 10;
 
   doc.setFontSize(14);
-  doc.text(`Quote – ${currentSheet}`, 10, y);
+  doc.text(`Quote – \${currentSheet}`, 10, y);
   y += 10;
 
   const scenario = document.getElementById("scenarioSelect").value;
   if (scenario) {
     doc.setFontSize(12);
-    doc.text(`Scenario: ${scenario}`, 10, y);
+    doc.text(`Scenario: \${scenario}`, 10, y);
     y += 10;
   }
 
@@ -186,8 +186,8 @@ function downloadFullPDF() {
   let psDays = 0, engDays = 0, conDays = 0;
 
   tasks.forEach((row, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    const selected = document.querySelector(`.select-task[data-index="\${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="\${index}"]`).value) || 0;
     const duration = parseFloat(row["Duration (Days)"]) || 0;
     const rate = parseFloat(row["Rate Per Day"]) || 0;
     const rateType = (row["Rate Type"] || "").toLowerCase();
@@ -201,10 +201,10 @@ function downloadFullPDF() {
 
       const task = row["Task"].slice(0, 55);
       doc.text(task, 10, y);
-      doc.text(`${qty}`, 90, y);
-      doc.text(`${duration}`, 110, y);
+      doc.text(`\${qty}`, 90, y);
+      doc.text(`\${duration}`, 110, y);
       doc.text(row["Rate Type"], 130, y);
-      doc.text(`£${cost.toFixed(2)}`, 170, y);
+      doc.text(`£\${cost.toFixed(2)}`, 170, y);
       y += 7;
       if (y > 270) { doc.addPage(); y = 10; }
     }
@@ -216,9 +216,9 @@ function downloadFullPDF() {
 
   y += 10;
   doc.setFont(undefined, 'bold');
-  doc.text(`PS Days: ${psDays.toFixed(1)} | Engineering Days: ${engDays.toFixed(1)} | Consultancy Days: ${conDays.toFixed(1)}`, 10, y);
+  doc.text(`PS Days: \${psDays.toFixed(1)} | Engineering Days: \${engDays.toFixed(1)} | Consultancy Days: \${conDays.toFixed(1)}`, 10, y);
   y += 7;
-  doc.text(`Total Days: ${totalDays.toFixed(1)} | PM Fee (20%): £${pmFee.toFixed(2)} | Grand Total: £${grandTotal.toFixed(2)}`, 10, y);
+  doc.text(`Total Days: \${totalDays.toFixed(1)} | PM Fee (20%): £\${pmFee.toFixed(2)} | Grand Total: £\${grandTotal.toFixed(2)}`, 10, y);
 
   // Add Scope
   y += 15;
@@ -227,12 +227,12 @@ function downloadFullPDF() {
   y += 10;
   doc.setFontSize(11);
   tasks.forEach((task, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    const selected = document.querySelector(`.select-task[data-index="\${index}"]`).checked;
+    const qty = parseInt(document.querySelector(`.quantity[data-index="\${index}"]`).value) || 0;
     if (selected && qty > 0) {
       const name = task["Task"];
       const desc = tooltips[name.trim().toLowerCase()] || "";
-      const bullet = `• ${name}${desc ? ' – ' + desc : ''}`;
+      const bullet = `• \${name}\${desc ? ' – ' + desc : ''}`;
       const lines = doc.splitTextToSize(bullet, 180);
       lines.forEach(line => {
         if (y > 270) { doc.addPage(); y = 10; }
@@ -242,8 +242,9 @@ function downloadFullPDF() {
     }
   });
 
-  doc.save(`Quote_SoW_${currentSheet.replace(/\s+/g, "_")}.pdf`);
+  doc.save(`Quote_SoW_\${currentSheet.replace(/\s+/g, "_")}.pdf`);
 }
+
 </script></head>
 <body>
 <h1>Quote Builder</h1>
@@ -539,7 +540,8 @@ function downloadSOWDocx() {
 </div>
 <button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button>
 <div style="text-align:center; margin-top: 2rem;">
-<button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
+  <button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
 </div>
+
 </body>
 </html>
