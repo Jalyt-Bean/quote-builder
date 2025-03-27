@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quote Builder</title>
+  <title>Professional Services Labour Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -88,6 +88,11 @@
     <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
     <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
     <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+    
+    <div class="summary-line"><span>PS Days Required:</span><span id="ps-days">0</span></div>
+    <div class="summary-line"><span>Engineering Days Required:</span><span id="engineering-days">0</span></div>
+    <div class="summary-line"><span>Consultancy Days Required:</span><span id="consultancy-days">0</span></div>
+
     <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
     <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
   </div>
@@ -238,26 +243,42 @@ Rate: £${task["Rate Per Day"] || 0}`;
       calculateTotal();
     }
 
-    function calculateTotal() {
-      let total = 0;
-      let totalDays = 0;
-      allData[currentSheet].forEach((row, index) => {
-        const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-        const duration = parseFloat(row["Duration (Days)"]) || 0;
-        const rate = parseFloat(row["Rate Per Day"]) || 0;
-        const cost = duration * rate * qty;
-        const days = duration * qty;
-        document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
-        total += cost;
-        totalDays += days;
-      });
-      const pmRequired = document.getElementById("pmRequired").checked;
-      const pmFee = pmRequired ? total * 0.2 : 0;
-      document.getElementById("total").textContent = `£${total.toFixed(2)}`;
-      document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
-      document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
-      document.getElementById("total-days").textContent = totalDays.toFixed(1);
-    }
+    
+function calculateTotal() {
+  let total = 0;
+  let totalDays = 0;
+  let psDays = 0;
+  let engDays = 0;
+  let conDays = 0;
+
+  allData[currentSheet].forEach((row, index) => {
+    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+    const duration = parseFloat(row["Duration (Days)"]) || 0;
+    const rate = parseFloat(row["Rate Per Day"]) || 0;
+    const cost = duration * rate * qty;
+    const days = duration * qty;
+    const rateType = (row["Rate Type"] || "").toLowerCase();
+
+    document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
+    total += cost;
+    totalDays += days;
+
+    if (rateType.includes("consultancy")) conDays += days;
+    else if (rateType.includes("engineering")) engDays += days;
+    else psDays += days;
+  });
+
+  const pmRequired = document.getElementById("pmRequired").checked;
+  const pmFee = pmRequired ? total * 0.2 : 0;
+
+  document.getElementById("total").textContent = `£${total.toFixed(2)}`;
+  document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
+  document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
+  document.getElementById("total-days").textContent = totalDays.toFixed(1);
+  document.getElementById("ps-days").textContent = psDays.toFixed(1);
+  document.getElementById("engineering-days").textContent = engDays.toFixed(1);
+  document.getElementById("consultancy-days").textContent = conDays.toFixed(1);
+}
 
     loadData();
   </script>
