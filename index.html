@@ -4,7 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sales Quote Builder</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
+</script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -326,6 +340,20 @@ function downloadPDF() {
 }
 
 window.addEventListener("DOMContentLoaded", loadScenarios);
+
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
 </script>
 
 </body>
