@@ -252,7 +252,14 @@ Rate: £${task["Rate Per Day"] || 0}`;
       document.getElementById("total").textContent = `£${total.toFixed(2)}`;
       document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
       document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
-      document.getElementById("total-days").textContent = totalDays.toFixed(1);
+      
+      document.getElementById("ps-days").textContent = psDays.toFixed(1);
+      document.getElementById("eng-days").textContent = engDays.toFixed(1);
+      document.getElementById("con-days").textContent = conDays.toFixed(1);
+      document.getElementById("total-days").textContent = (psDays + engDays + conDays).toFixed(1);
+      document.getElementById("sowTotals").textContent =
+        `Total Days: ${(psDays + engDays + conDays).toFixed(1)} (PS: ${psDays.toFixed(1)} | Engineering: ${engDays.toFixed(1)} | Consultancy: ${conDays.toFixed(1)})`;
+    
       let psDays = 0, engDays = 0, conDays = 0;
       let sowOutput = "";
 
