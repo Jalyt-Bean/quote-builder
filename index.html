@@ -18,6 +18,22 @@ window.addEventListener("DOMContentLoaded", () => {
   .catch(err => console.error("Failed to load JSON:", err));
 });
 
+
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json()),
+    fetch("tooltips.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    tooltips = tooltipsResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
 </script>
   <style>
     body {
@@ -349,6 +365,22 @@ window.addEventListener("DOMContentLoaded", () => {
   .then(([allDataResp, scenariosResp]) => {
     allData = allDataResp;
     scenarios = scenariosResp;
+    populateSheets();
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+});
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("allData.json").then(res => res.json()),
+    fetch("scenarios.json").then(res => res.json()),
+    fetch("tooltips.json").then(res => res.json())
+  ])
+  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
+    allData = allDataResp;
+    scenarios = scenariosResp;
+    tooltips = tooltipsResp;
     populateSheets();
   })
   .catch(err => console.error("Failed to load JSON:", err));
