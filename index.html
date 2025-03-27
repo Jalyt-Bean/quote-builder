@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,14 +32,30 @@
       background-color: #0078d4;
       color: white;
     }
-    tfoot td {
-      font-weight: bold;
-    }
     .tooltip-icon {
       margin-left: 6px;
       cursor: pointer;
       color: #0078d4;
       font-weight: bold;
+    }
+    .summary-card {
+      background: #fff;
+      padding: 1rem;
+      margin-top: 2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .summary-card h3 {
+      margin-top: 0;
+      color: #0078d4;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
     }
   </style>
 </head>
@@ -66,15 +81,16 @@
       </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
-      <tr><td colspan="6">Total Selected Cost</td><td id="total">£0.00</td></tr>
-      <tr><td colspan="6">PM Fee (20%)</td><td id="pm-fee">£0.00</td></tr>
-      <tr><td colspan="6">Grand Total</td><td id="grand-total">£0.00</td></tr>
-      <tr><td colspan="6">Total Days Required</td><td id="total-days">0</td></tr>
-    </tfoot>
   </table>
 
-  <label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label>
+  <div class="summary-card">
+    <h3>Quote Summary</h3>
+    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
+  </div>
 
   <script>
     let allData = {};
