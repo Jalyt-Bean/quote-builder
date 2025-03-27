@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quote Builder</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Builder</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
@@ -59,223 +58,41 @@
       padding: 0.25rem 0;
     }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/docx@7.7.0/build/docx.umd.js">
-
-function downloadFullPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  let y = 10;
-
-  doc.setFontSize(14);
-  doc.text(`Quote – ${currentSheet}`, 10, y);
-  y += 10;
-
-  const scenario = document.getElementById("scenarioSelect").value;
-  if (scenario) {
-    doc.setFontSize(12);
-    doc.text(`Scenario: ${scenario}`, 10, y);
-    y += 10;
-  }
-
-  // Table Header
-  doc.setFontSize(11);
-  doc.setFont(undefined, 'bold');
-  doc.text("Task", 10, y);
-  doc.text("Qty", 90, y);
-  doc.text("Days", 110, y);
-  doc.text("Rate Type", 130, y);
-  doc.text("Cost", 170, y);
-  y += 7;
-  doc.setFont(undefined, 'normal');
-
-  const tasks = allData[currentSheet];
-  let total = 0;
-  let psDays = 0, engDays = 0, conDays = 0;
-
-  tasks.forEach((row, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-    const duration = parseFloat(row["Duration (Days)"]) || 0;
-    const rate = parseFloat(row["Rate Per Day"]) || 0;
-    const rateType = (row["Rate Type"] || "").toLowerCase();
-    if (selected && qty > 0) {
-      const cost = qty * duration * rate;
-      total += cost;
-
-      if (rateType.includes("consultancy")) conDays += qty * duration;
-      else if (rateType.includes("engineering")) engDays += qty * duration;
-      else psDays += qty * duration;
-
-      const task = row["Task"].slice(0, 55);
-      doc.text(task, 10, y);
-      doc.text(`${qty}`, 90, y);
-      doc.text(`${duration}`, 110, y);
-      doc.text(row["Rate Type"], 130, y);
-      doc.text(`£${cost.toFixed(2)}`, 170, y);
-      y += 7;
-      if (y > 270) { doc.addPage(); y = 10; }
-    }
-  });
-
-  const pmFee = total * 0.2;
-  const grandTotal = total + pmFee;
-  const totalDays = psDays + engDays + conDays;
-
-  y += 10;
-  doc.setFont(undefined, 'bold');
-  doc.text(`PS Days: ${psDays.toFixed(1)} | Engineering Days: ${engDays.toFixed(1)} | Consultancy Days: ${conDays.toFixed(1)}`, 10, y);
-  y += 7;
-  doc.text(`Total Days: ${totalDays.toFixed(1)} | PM Fee (20%): £${pmFee.toFixed(2)} | Grand Total: £${grandTotal.toFixed(2)}`, 10, y);
-
-  // Add Scope
-  y += 15;
-  doc.setFontSize(13);
-  doc.text("Scope of Work", 10, y);
-  y += 10;
-  doc.setFontSize(11);
-  tasks.forEach((task, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-    if (selected && qty > 0) {
-      const name = task["Task"];
-      const desc = tooltips[name.trim().toLowerCase()] || "";
-      const bullet = `• ${name}${desc ? ' – ' + desc : ''}`;
-      const lines = doc.splitTextToSize(bullet, 180);
-      lines.forEach(line => {
-        if (y > 270) { doc.addPage(); y = 10; }
-        doc.text(line, 10, y);
-        y += 6;
-      });
-    }
-  });
-
-  doc.save(`Quote_SoW_${currentSheet.replace(/\s+/g, "_")}.pdf`);
-}
-
-
-
-window.downloadFullPDF = function () {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  let y = 10;
-
-  doc.setFontSize(14);
-  doc.text(`Quote – \${currentSheet}`, 10, y);
-  y += 10;
-
-  const scenario = document.getElementById("scenarioSelect").value;
-  if (scenario) {
-    doc.setFontSize(12);
-    doc.text(`Scenario: \${scenario}`, 10, y);
-    y += 10;
-  }
-
-  doc.setFontSize(11);
-  doc.setFont(undefined, 'bold');
-  doc.text("Task", 10, y);
-  doc.text("Qty", 90, y);
-  doc.text("Days", 110, y);
-  doc.text("Rate Type", 130, y);
-  doc.text("Cost", 170, y);
-  y += 7;
-  doc.setFont(undefined, 'normal');
-
-  const tasks = allData[currentSheet];
-  let total = 0;
-  let psDays = 0, engDays = 0, conDays = 0;
-
-  tasks.forEach((row, index) => {
-    const selected = document.querySelector(`.select-task[data-index="\${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="\${index}"]`).value) || 0;
-    const duration = parseFloat(row["Duration (Days)"]) || 0;
-    const rate = parseFloat(row["Rate Per Day"]) || 0;
-    const rateType = (row["Rate Type"] || "").toLowerCase();
-    if (selected && qty > 0) {
-      const cost = qty * duration * rate;
-      total += cost;
-
-      if (rateType.includes("consultancy")) conDays += qty * duration;
-      else if (rateType.includes("engineering")) engDays += qty * duration;
-      else psDays += qty * duration;
-
-      const task = row["Task"].slice(0, 55);
-      doc.text(task, 10, y);
-      doc.text(`\${qty}`, 90, y);
-      doc.text(`\${duration}`, 110, y);
-      doc.text(row["Rate Type"], 130, y);
-      doc.text(`£\${cost.toFixed(2)}`, 170, y);
-      y += 7;
-      if (y > 270) { doc.addPage(); y = 10; }
-    }
-  });
-
-  const pmFee = total * 0.2;
-  const grandTotal = total + pmFee;
-  const totalDays = psDays + engDays + conDays;
-
-  y += 10;
-  doc.setFont(undefined, 'bold');
-  doc.text(`PS Days: \${psDays.toFixed(1)} | Engineering Days: \${engDays.toFixed(1)} | Consultancy Days: \${conDays.toFixed(1)}`, 10, y);
-  y += 7;
-  doc.text(`Total Days: \${totalDays.toFixed(1)} | PM Fee (20%): £\${pmFee.toFixed(2)} | Grand Total: £\${grandTotal.toFixed(2)}`, 10, y);
-
-  y += 15;
-  doc.setFontSize(13);
-  doc.text("Scope of Work", 10, y);
-  y += 10;
-  doc.setFontSize(11);
-  tasks.forEach((task, index) => {
-    const selected = document.querySelector(`.select-task[data-index="\${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="\${index}"]`).value) || 0;
-    if (selected && qty > 0) {
-      const name = task["Task"];
-      const desc = tooltips[name.trim().toLowerCase()] || "";
-      const bullet = `• \${name}\${desc ? ' – ' + desc : ''}`;
-      const lines = doc.splitTextToSize(bullet, 180);
-      lines.forEach(line => {
-        if (y > 270) { doc.addPage(); y = 10; }
-        doc.text(line, 10, y);
-        y += 6;
-      });
-    }
-  });
-
-  doc.save(`Quote_SoW_\${currentSheet.replace(/\s+/g, "_")}.pdf`);
-};
-
-</script></head>
+</head>
 <body>
-<h1>Quote Builder</h1>
-<label for="projectSelect">Project Type:</label>
-<select id="projectSelect"></select>
-<label for="scenarioSelect">Scenario:</label>
-<select id="scenarioSelect"></select>
-<table id="taskTable">
-<thead>
-<tr>
-<th><input id="toggleAll" type="checkbox"/></th>
-<th>Task</th>
-<th>Rate Type</th>
-<th>Duration (Days)</th>
-<th>Rate Per Day</th>
-<th>Quantity</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-<div class="summary-card">
-<h3>Quote Summary</h3>
-<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-<div class="summary-line"><span>PS Days Required:</span><span id="ps-days">0</span></div>
-<div class="summary-line"><span>Engineering Days Required:</span><span id="engineering-days">0</span></div>
-<div class="summary-line"><span>Consultancy Days Required:</span><span id="consultancy-days">0</span></div>
-<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
-</div>
-<script>
+  <h1>Quote Builder</h1>
+
+  <label for="projectSelect">Project Type:</label>
+  <select id="projectSelect"></select>
+
+  <label for="scenarioSelect">Scenario:</label>
+  <select id="scenarioSelect"></select>
+
+  <table id="taskTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="toggleAll" /></th>
+        <th>Task</th>
+        <th>Rate Type</th>
+        <th>Duration (Days)</th>
+        <th>Rate Per Day</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="summary-card">
+    <h3>Quote Summary</h3>
+    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
+  </div>
+
+  <script>
     let allData = {};
     let tooltips = {};
     let scenarios = {};
@@ -421,125 +238,28 @@ Rate: £${task["Rate Per Day"] || 0}`;
       calculateTotal();
     }
 
-    
-function calculateTotal() {
-  let total = 0;
-  let totalDays = 0;
-  let psDays = 0;
-  let engDays = 0;
-  let conDays = 0;
-
-  allData[currentSheet].forEach((row, index) => {
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-    const duration = parseFloat(row["Duration (Days)"]) || 0;
-    const rate = parseFloat(row["Rate Per Day"]) || 0;
-    const cost = duration * rate * qty;
-    const days = duration * qty;
-    const rateType = (row["Rate Type"] || "").toLowerCase();
-
-    document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
-    total += cost;
-    totalDays += days;
-
-    if (rateType.includes("consultancy")) conDays += days;
-    else if (rateType.includes("engineering")) engDays += days;
-    else psDays += days;
-  });
-
-  const pmRequired = document.getElementById("pmRequired").checked;
-  const pmFee = pmRequired ? total * 0.2 : 0;
-
-  document.getElementById("total").textContent = `£${total.toFixed(2)}`;
-  document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
-  document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
-  document.getElementById("total-days").textContent = totalDays.toFixed(1);
-  document.getElementById("ps-days").textContent = psDays.toFixed(1);
-  document.getElementById("engineering-days").textContent = engDays.toFixed(1);
-  document.getElementById("consultancy-days").textContent = conDays.toFixed(1);
-}
+    function calculateTotal() {
+      let total = 0;
+      let totalDays = 0;
+      allData[currentSheet].forEach((row, index) => {
+        const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+        const duration = parseFloat(row["Duration (Days)"]) || 0;
+        const rate = parseFloat(row["Rate Per Day"]) || 0;
+        const cost = duration * rate * qty;
+        const days = duration * qty;
+        document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
+        total += cost;
+        totalDays += days;
+      });
+      const pmRequired = document.getElementById("pmRequired").checked;
+      const pmFee = pmRequired ? total * 0.2 : 0;
+      document.getElementById("total").textContent = `£${total.toFixed(2)}`;
+      document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
+      document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
+      document.getElementById("total-days").textContent = totalDays.toFixed(1);
+    }
 
     loadData();
-  
-function generateSOW() {
-  const tasks = allData[currentSheet];
-  let output = `Project Type: ${currentSheet}\n`;
-  const scenario = document.getElementById("scenarioSelect").value;
-  if (scenario) output += `Scenario: ${scenario}\n`;
-  output += `\nSelected Tasks:\n`;
-
-  tasks.forEach((task, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-    if (selected && qty > 0) {
-      const name = task["Task"];
-      const duration = task["Duration (Days)"];
-      const rateType = task["Rate Type"];
-      const description = tooltips[name.trim().toLowerCase()] || "";
-      output += `- ${name} (x${qty}, ${duration} days @ ${rateType})\n  ${description}\n`;
-    }
-  });
-
-  output += `\nBreakdown:\n`;
-  output += `PS Days: ${document.getElementById("ps-days").textContent}\n`;
-  output += `Engineering Days: ${document.getElementById("engineering-days").textContent}\n`;
-  output += `Consultancy Days: ${document.getElementById("consultancy-days").textContent}\n`;
-  output += `Total Days: ${document.getElementById("total-days").textContent}\n`;
-  output += `Grand Total: ${document.getElementById("grand-total").textContent}\n`;
-
-  document.getElementById("sowOutput").value = output;
-}
-
-
-
-function downloadSOWDocx() {
-  const { Document, Packer, Paragraph, TextRun } = window.docx;
-
-  const tasks = allData[currentSheet];
-  const doc = new Document();
-
-  const elements = [
-    new Paragraph({ text: `Statement of Works – ${currentSheet}`, heading: "Heading1" }),
-    new Paragraph({ text: "Scope of Work", heading: "Heading2" })
-  ];
-
-  tasks.forEach((task, index) => {
-    const selected = document.querySelector(`.select-task[data-index="${index}"]`).checked;
-    const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
-    if (selected && qty > 0) {
-      const name = task["Task"];
-      const desc = tooltips[name.trim().toLowerCase()] || "";
-      elements.push(
-        new Paragraph({
-          children: [
-            new TextRun({ text: `• ${name}`, bold: true }),
-            new TextRun({ text: desc ? ` – ${desc}` : "" })
-          ]
-        })
-      );
-    }
-  });
-
-  doc.addSection({ children: elements });
-
-  Packer.toBlob(doc).then(blob => {
-    const filename = `SoW_${currentSheet.replace(/\s+/g, "_")}.docx`;
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-    URL.revokeObjectURL(link.href);
-  });
-}
-</script>
-<div class="sow-section" style="margin-top: 3rem;">
-<h2>Statement of Works Summary</h2>
-<button class="btn" onclick="generateSOW()">Generate SoW Summary</button>
-<textarea id="sowOutput" readonly="" rows="15" style="width:100%; margin-top:1rem;"></textarea>
-</div>
-<button class="btn" onclick="downloadSOWDocx()" style="margin-top: 1rem;">Download SoW as DOCX</button>
-<div style="text-align:center; margin-top: 2rem;">
-  <button class="btn" onclick="downloadFullPDF()">Download Full PDF (Quote + Scope)</button>
-</div>
-
+  </script>
 </body>
 </html>
