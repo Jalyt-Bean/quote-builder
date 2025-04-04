@@ -128,6 +128,20 @@
       "Rate Per Day": 950.0,
       "Quantity": 1
     }
+    {
+      "Task": "Fortigate SSL VPN configuration",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    }
+    {
+      "Task": "Travel Time for Field Engineer",
+      "Rate Type": "Engineering rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 700.0,
+      "Quantity": 1
+    }
   ],
   "On-Prem to Azure": [
     {
@@ -224,7 +238,7 @@
     {
       "Task": "Azure VPN point to site configuration (per 25 users)",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.0,
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -373,7 +387,7 @@
     {
       "Task": "Azure VPN point to site configuration (per 25 users)",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.0,
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -459,7 +473,7 @@
     {
       "Task": "Consultation session to review current file share structure and layout desired Sharepoint structure",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 1.0,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -513,7 +527,7 @@
       "Quantity": 1
     },
     {
-      "Task": "Migration of workstations (per 7 workstations",
+      "Task": "Migration of workstations (per 7 workstations)",
       "Rate Type": "PS rate",
       "Duration (Days)": 1.0,
       "Rate Per Day": 950.0,
