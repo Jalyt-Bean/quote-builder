@@ -127,14 +127,14 @@
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
-    }
+    },
     {
       "Task": "Fortigate SSL VPN configuration",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
-    }
+    },
     {
       "Task": "Travel Time for Field Engineer",
       "Rate Type": "Engineering rate",
