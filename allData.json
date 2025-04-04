@@ -173,6 +173,41 @@
       "Quantity": 1
     },
     {
+      "Task": "Build New VM - Domain Controller",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - File Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - SQL Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - IIS Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Transfer FSMO Roles",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
       "Task": "Liaise with third party to assist with data and application move",
       "Rate Type": "PS rate",
       "Duration (Days)": 0.5,
@@ -290,6 +325,41 @@
       "Task": "Virtual machine migration - per 5 VMs",
       "Rate Type": "PS rate",
       "Duration (Days)": 2.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - Domain Controller",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - File Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - SQL Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Build New VM - IIS Server",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 1.0,
+      "Rate Per Day": 950.0,
+      "Quantity": 1
+    },
+    {
+      "Task": "Transfer FSMO Roles",
+      "Rate Type": "PS rate",
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
