@@ -17,6 +17,7 @@
   "fortigate firewall wan/lan and default acl configuration": "Configure core firewall settings for internet access, internal traffic, and basic access control.",
   "fortigate utm configuration - web filter": "Enable content filtering to block malicious or inappropriate websites.",
   "fortigate utm configuration - ids/ips & ddos protection configuration": "Enable intrusion prevention and DDoS protection to strengthen network security.",
+  "fortigate ssl vpn configuration": "Configure secure remote access via Fortigate SSL VPN, allowing users to connect to the company network from outside locations using an encrypted tunnel.",
   "prescoping consultancy call to discuss migration plans and cost optimisation with follow up report": "Deliver a planning session to review the existing setup, recommend migration paths, and identify cost-saving opportunities.",
   "azure subscription procurement & creation": "Set up an Azure subscription with the right configuration for the client.",
   "azure migrate setup (agentless hyper-v/vmware)": "Configure Azure Migrate to assess and prepare for migrating virtual machines without installing agents.",
