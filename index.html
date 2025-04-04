@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Professional Services Labour Estimator</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Services Labour Estimator</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
@@ -61,173 +60,206 @@
   </style>
 </head>
 <body>
-<h1>Professional Services Labour Estimator</h1>
-<label for="projectSelect">Project Type:</label>
-<select id="projectSelect"></select>
-<label for="scenarioSelect">Scenario:</label>
-<select id="scenarioSelect"></select>
-<table id="taskTable">
-<thead>
-<tr>
-<th><input id="toggleAll" type="checkbox"/></th>
-<th>Task</th>
-<th>Rate Type</th>
-<th>Duration (Days)</th>
-<th>Rate Per Day</th>
-<th>Quantity</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-<div class="summary-card">
-<h3>Quote Summary</h3>
-<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
-</div>
-<script>
-let allData = {};
-let scenarios = {};
-let tooltips = {};
-let currentSheet = "";
-let selections = {};
+  <h1>Professional Services Labour Estimator</h1>
 
-window.addEventListener("DOMContentLoaded", () => {
-  Promise.all([
-    fetch("allData.json").then(res => res.json()),
-    fetch("scenarios.json").then(res => res.json()),
-    fetch("tooltips.json").then(res => res.json())
-  ])
-  .then(([allDataResp, scenariosResp, tooltipsResp]) => {
-    allData = allDataResp;
-    scenarios = scenariosResp;
-    tooltips = tooltipsResp;
-    populateSheets();
-  })
-  .catch(err => console.error("Failed to load JSON:", err));
-});
+  <label for="projectSelect">Project Type:</label>
+  <select id="projectSelect"></select>
 
-function populateSheets() {
-  const sheetSelect = document.getElementById("sheetSelect");
-  sheetSelect.innerHTML = "";
-  Object.keys(allData).forEach(sheet => {
-    const opt = document.createElement("option");
-    opt.value = sheet;
-    opt.textContent = sheet;
-    sheetSelect.appendChild(opt);
-  });
-  if (Object.keys(allData).length > 0) {
-    currentSheet = Object.keys(allData)[0];
-    renderTable();
-  }
-}
+  <label for="scenarioSelect">Scenario:</label>
+  <select id="scenarioSelect"></select>
 
-function renderTable() {
-  currentSheet = document.getElementById("sheetSelect").value;
-  if (!selections[currentSheet]) {
-    selections[currentSheet] = allData[currentSheet].map(() => ({ selected: false, qty: 0 }));
-  }
-  const tbody = document.querySelector("#quote-table tbody");
-  tbody.innerHTML = "";
-  allData[currentSheet].forEach((row, index) => {
-    const tr = document.createElement("tr");
+  <table id="taskTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="toggleAll" /></th>
+        <th>Task</th>
+        <th>Rate Type</th>
+        <th>Duration (Days)</th>
+        <th>Rate Per Day</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-    const tdSelect = document.createElement("td");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "select-task";
-    checkbox.dataset.index = index;
-    checkbox.checked = selections[currentSheet][index].selected;
-    checkbox.addEventListener("change", () => updateQuantityOnSelect(index));
-    tdSelect.appendChild(checkbox);
-    tr.appendChild(tdSelect);
+  <div class="summary-card">
+    <h3>Quote Summary</h3>
+    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
+  </div>
 
-    const tdTask = document.createElement("td");
-    tdTask.textContent = row["Task"] || "";
-    const tooltipIcon = document.createElement("span");
-    tooltipIcon.className = "tooltip-icon";
-    tooltipIcon.innerHTML = "&#9432;";
-    const key = row["Task"]?.trim().toLowerCase();
-    tooltipIcon.title = tooltips[key] || "No tooltip available.";
-    tdTask.appendChild(tooltipIcon);
-    tr.appendChild(tdTask);
+  <script>
+    let allData = {};
+    let tooltips = {};
+    let scenarios = {};
+    let currentSheet = "";
 
-    ["Rate Type", "Duration (Days)", "Rate Per Day"].forEach(field => {
-      const td = document.createElement("td");
-      td.textContent = row[field] || "";
-      tr.appendChild(td);
-    });
+    async function loadData() {
+      const [allDataResp, tooltipsResp, scenariosResp] = await Promise.all([
+        fetch("allData.json").then(r => r.json()),
+        fetch("tooltips.json").then(r => r.json()),
+        fetch("scenarios.json").then(r => r.json())
+      ]);
+      allData = allDataResp;
+      tooltips = tooltipsResp;
+      scenarios = scenariosResp;
+      populateProjectTypes();
+    }
 
-    const tdQty = document.createElement("td");
-    const inputQty = document.createElement("input");
-    inputQty.type = "number";
-    inputQty.min = 0;
-    inputQty.value = selections[currentSheet][index].qty;
-    inputQty.className = "quantity";
-    inputQty.dataset.index = index;
-    inputQty.addEventListener("change", calculateTotal);
-    tdQty.appendChild(inputQty);
-    tr.appendChild(tdQty);
+    function populateProjectTypes() {
+      const select = document.getElementById("projectSelect");
+      select.innerHTML = "";
+      Object.keys(allData).forEach(project => {
+        const option = document.createElement("option");
+        option.value = project;
+        option.textContent = project;
+        select.appendChild(option);
+      });
+      select.addEventListener("change", () => {
+        currentSheet = select.value;
+        renderTasks();
+        updateScenarios();
+      });
+      currentSheet = Object.keys(allData)[0];
+      renderTasks();
+      updateScenarios();
+    }
 
-    const tdCost = document.createElement("td");
-    tdCost.className = "cost";
-    tdCost.id = `cost-${index}`;
-    tdCost.textContent = "£0.00";
-    tr.appendChild(tdCost);
+    function updateScenarios() {
+      const scenarioSelect = document.getElementById("scenarioSelect");
+      const options = scenarios[currentSheet] || {};
+      scenarioSelect.innerHTML = "";
 
-    tbody.appendChild(tr);
-  });
-
-  calculateTotal();
-}
-
-function updateQuantityOnSelect(index) {
-  const cb = document.querySelector(`.select-task[data-index="${index}"]`);
-  const qty = cb.checked ? 1 : 0;
-  selections[currentSheet][index] = { selected: cb.checked, qty };
-  document.querySelector(`.quantity[data-index="${index}"]`).value = qty;
-  calculateTotal();
-}
-
-function calculateTotal() {
-  let total = 0, totalDays = 0, psDays = 0, engDays = 0, consDays = 0;
-
-  Object.keys(allData).forEach(projectType => {
-    const rows = allData[projectType];
-    if (!selections[projectType]) return;
-    selections[projectType].forEach((sel, index) => {
-      if (!sel.selected) return;
-      const row = rows[index];
-      const duration = parseFloat(row["Duration (Days)"]) || 0;
-      const rate = parseFloat(row["Rate Per Day"]) || 0;
-      const rateType = (row["Rate Type"] || "").toLowerCase();
-      const qty = sel.qty;
-      const cost = duration * rate * qty;
-      const days = duration * qty;
-      total += cost;
-      totalDays += days;
-      if (rateType.includes("consultancy")) consDays += days;
-      else if (rateType.includes("engineering")) engDays += days;
-      else psDays += days;
-      if (projectType === currentSheet) {
-        const costCell = document.getElementById(`cost-${index}`);
-        if (costCell) costCell.textContent = `£${cost.toFixed(2)}`;
+      if (Object.keys(options).length > 0) {
+        scenarioSelect.innerHTML = `<option value="">-- Select Scenario --</option>`;
+        Object.keys(options).forEach(name => {
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          scenarioSelect.appendChild(opt);
+        });
+        scenarioSelect.onchange = applyScenario;
+      } else {
+        const opt = document.createElement("option");
+        opt.textContent = "-- No scenarios available --";
+        opt.disabled = true;
+        scenarioSelect.appendChild(opt);
       }
-    });
-  });
+    }
 
-  const pmFee = total * 0.2;
-  document.getElementById("total").textContent = `£${total.toFixed(2)}`;
-  document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
-  document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
-  document.getElementById("ps-days").textContent = psDays.toFixed(1);
-  document.getElementById("eng-days").textContent = engDays.toFixed(1);
-  document.getElementById("cons-days").textContent = consDays.toFixed(1);
-  document.getElementById("total-days").textContent = totalDays.toFixed(1);
-}
-</script>
+    function applyScenario() {
+      const selectedScenario = document.getElementById("scenarioSelect").value;
+      const taskSelections = scenarios[currentSheet]?.[selectedScenario];
+      if (!taskSelections) return;
+      allData[currentSheet].forEach((task, index) => {
+        const qty = taskSelections[task["Task"]] || 0;
+        const checkbox = document.querySelector(`.select-task[data-index="${index}"]`);
+        const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+        checkbox.checked = qty > 0;
+        qtyInput.value = qty;
+      });
+      calculateTotal();
+    }
+
+    function renderTasks() {
+      const rows = allData[currentSheet] || [];
+      const tbody = document.querySelector("#taskTable tbody");
+      tbody.innerHTML = "";
+
+      rows.forEach((task, index) => {
+        const tr = document.createElement("tr");
+        const tooltipKey = task["Task"].trim().toLowerCase();
+
+        const tdCheck = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "select-task";
+        checkbox.dataset.index = index;
+        checkbox.checked = false;
+        checkbox.addEventListener("change", () => {
+          const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+          qtyInput.value = checkbox.checked ? 1 : 0;
+          calculateTotal();
+        });
+        tdCheck.appendChild(checkbox);
+        tr.appendChild(tdCheck);
+
+        const tooltipIcon = document.createElement("span");
+        tooltipIcon.className = "tooltip-icon";
+        tooltipIcon.title = tooltips[tooltipKey] || `Duration: ${task["Duration (Days)"] || 0}d
+Rate: £${task["Rate Per Day"] || 0}`;
+        tooltipIcon.textContent = "ⓘ";
+
+        const tdTask = document.createElement("td");
+        tdTask.textContent = task["Task"];
+        tdTask.appendChild(tooltipIcon);
+        tr.appendChild(tdTask);
+
+        ["Rate Type", "Duration (Days)", "Rate Per Day"].forEach(k => {
+          const td = document.createElement("td");
+          td.textContent = task[k] || "";
+          tr.appendChild(td);
+        });
+
+        const qty = document.createElement("input");
+        qty.type = "number";
+        qty.min = 0;
+        qty.value = 0;
+        qty.className = "quantity";
+        qty.dataset.index = index;
+        qty.addEventListener("input", calculateTotal);
+
+        const tdQty = document.createElement("td");
+        tdQty.appendChild(qty);
+        tr.appendChild(tdQty);
+
+        const tdCost = document.createElement("td");
+        tdCost.id = `cost-${index}`;
+        tr.appendChild(tdCost);
+
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("toggleAll").addEventListener("change", function() {
+        const checkboxes = document.querySelectorAll(".select-task");
+        checkboxes.forEach(cb => {
+          cb.checked = this.checked;
+          const index = cb.dataset.index;
+          const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
+          qtyInput.value = this.checked ? 1 : 0;
+        });
+        calculateTotal();
+      });
+
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      let total = 0;
+      let totalDays = 0;
+      allData[currentSheet].forEach((row, index) => {
+        const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
+        const duration = parseFloat(row["Duration (Days)"]) || 0;
+        const rate = parseFloat(row["Rate Per Day"]) || 0;
+        const cost = duration * rate * qty;
+        const days = duration * qty;
+        document.getElementById(`cost-${index}`).textContent = `£${cost.toFixed(2)}`;
+        total += cost;
+        totalDays += days;
+      });
+      const pmRequired = document.getElementById("pmRequired").checked;
+      const pmFee = pmRequired ? total * 0.2 : 0;
+      document.getElementById("total").textContent = `£${total.toFixed(2)}`;
+      document.getElementById("pm-fee").textContent = `£${pmFee.toFixed(2)}`;
+      document.getElementById("grand-total").textContent = `£${(total + pmFee).toFixed(2)}`;
+      document.getElementById("total-days").textContent = totalDays.toFixed(1);
+    }
+
+    loadData();
+  </script>
 </body>
 </html>
