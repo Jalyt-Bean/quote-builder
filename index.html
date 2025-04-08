@@ -69,6 +69,57 @@ async function downloadQuotePDF() {
 
   doc.save("labour_estimate.pdf");
 }
+</script><script>
+window.addEventListener("load", () => {
+  const checkJSPDF = setInterval(() => {
+    if (window.jspdf && window.jspdf.jsPDF) {
+      clearInterval(checkJSPDF);
+      window.downloadQuotePDF = async function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+        doc.setFontSize(14);
+        doc.text("Professional Services Labour Estimate", 10, y);
+        y += 10;
+        Object.keys(allData).forEach(sheet => {
+          const tasks = allData[sheet];
+          const sel = selections[sheet] || [];
+          const selectedTasks = tasks.filter((task, i) => sel[i]?.selected && sel[i].qty > 0);
+          if (selectedTasks.length === 0) return;
+          doc.setFontSize(12);
+          doc.text(sheet, 10, y);
+          y += 6;
+          selectedTasks.forEach((task, i) => {
+            const qty = sel[tasks.indexOf(task)].qty;
+            const duration = parseFloat(task["Duration (Days)"]) || 0;
+            const rate = parseFloat(task["Rate Per Day"]) || 0;
+            const cost = duration * rate * qty;
+            const text = `- ${task.Task} (Qty: ${qty}, Days: ${duration}, Rate: £${rate}, Cost: £${cost.toFixed(2)})`;
+            const lines = doc.splitTextToSize(text, 180);
+            doc.text(lines, 10, y);
+            y += lines.length * 6;
+            if (y > 270) { doc.addPage(); y = 10; }
+          });
+          y += 4;
+        });
+        y += 10;
+        doc.setFontSize(12);
+        doc.text("Quote Summary", 10, y); y += 8;
+        function getText(id) {
+          return document.getElementById(id)?.textContent || "N/A";
+        }
+        doc.text(`Total Selected Cost: ${getText("total")}`, 10, y); y += 6;
+        doc.text(`PM Fee (20%): ${getText("pm-fee")}`, 10, y); y += 6;
+        doc.text(`Grand Total: ${getText("grand-total")}`, 10, y); y += 6;
+        doc.text(`Total Days Required: ${getText("total-days")}`, 10, y); y += 6;
+        doc.text(`PS Days: ${getText("ps-days")}`, 10, y); y += 6;
+        doc.text(`Engineering Days: ${getText("eng-days")}`, 10, y); y += 6;
+        doc.text(`Consultancy Days: ${getText("cons-days")}`, 10, y); y += 6;
+        doc.save("labour_estimate.pdf");
+      };
+    }
+  }, 100);
+});
 </script></head>
 <body>
 <h1>Professional Services Labour Estimator</h1>
@@ -316,7 +367,6 @@ async function downloadQuotePDF() {
       document.getElementById("cons-days").textContent = cons.toFixed(1);
     }
   </script>
-
 <div style="text-align:center; margin-top: 2rem;">
 <button onclick="downloadQuotePDF()" style="padding: 0.5rem 1rem; background: #0078d4; color: white; border: none; border-radius: 4px; cursor: pointer;">Download Quote as PDF</button>
 </div>
