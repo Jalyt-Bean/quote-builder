@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professional Services Labour Estimator</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Professional Services Labour Estimator</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
@@ -60,39 +61,34 @@
   </style>
 </head>
 <body>
-  <h1>Professional Services Labour Estimator</h1>
-
-  <label for="projectSelect">Project Type:</label>
-  <select id="projectSelect"></select>
-
-  <label for="scenarioSelect">Scenario:</label>
-  <select id="scenarioSelect"></select>
-
-  <table id="taskTable">
-    <thead>
-      <tr>
-        <th><input type="checkbox" id="toggleAll" /></th>
-        <th>Task</th>
-        <th>Rate Type</th>
-        <th>Duration (Days)</th>
-        <th>Rate Per Day</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div class="summary-card">
-    <h3>Quote Summary</h3>
-    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-    <div class="summary-line"><label><input type="checkbox" id="pmRequired" checked onchange="calculateTotal()"> Project Management Required</label></div>
-  </div>
-
-  <script>
+<h1>Professional Services Labour Estimator</h1>
+<label for="projectSelect">Project Type:</label>
+<select id="projectSelect"></select>
+<label for="scenarioSelect">Scenario:</label>
+<select id="scenarioSelect"></select>
+<table id="taskTable">
+<thead>
+<tr>
+<th><input id="toggleAll" type="checkbox"/></th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div class="summary-card">
+<h3>Quote Summary</h3>
+<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
+</div>
+<script>
     let allData = {};
     let tooltips = {};
     let scenarios = {};
@@ -166,6 +162,9 @@
     }
 
     function renderTasks() {
+  if (!selections[currentSheet]) {
+    selections[currentSheet] = allData[currentSheet].map(() => ({ selected: false, qty: 0 }));
+  }
       const rows = allData[currentSheet] || [];
       const tbody = document.querySelector("#taskTable tbody");
       tbody.innerHTML = "";
@@ -179,8 +178,9 @@
         checkbox.type = "checkbox";
         checkbox.className = "select-task";
         checkbox.dataset.index = index;
-        checkbox.checked = false;
+        checkbox.checked = selections[currentSheet][index].selected;
         checkbox.addEventListener("change", () => {
+      selections[currentSheet][index].selected = checkbox.checked;
           const qtyInput = document.querySelector(`.quantity[data-index="${index}"]`);
           qtyInput.value = checkbox.checked ? 1 : 0;
           calculateTotal();
@@ -208,10 +208,13 @@ Rate: £${task["Rate Per Day"] || 0}`;
         const qty = document.createElement("input");
         qty.type = "number";
         qty.min = 0;
-        qty.value = 0;
+        qty.value = selections[currentSheet][index].qty;
         qty.className = "quantity";
         qty.dataset.index = index;
-        qty.addEventListener("input", calculateTotal);
+        qty.addEventListener("input", (e) => {
+      selections[currentSheet][index].qty = parseInt(e.target.value) || 0;
+      calculateTotal();
+    });
 
         const tdQty = document.createElement("td");
         tdQty.appendChild(qty);
@@ -239,9 +242,27 @@ Rate: £${task["Rate Per Day"] || 0}`;
     }
 
     function calculateTotal() {
-      let total = 0;
-      let totalDays = 0;
-      allData[currentSheet].forEach((row, index) => {
+  let total = 0;
+  let totalDays = 0;
+
+  Object.keys(allData).forEach(sheet => {
+    if (!selections[sheet]) return;
+    allData[sheet].forEach((row, index) => {
+      const sel = selections[sheet][index];
+      if (!sel || !sel.selected || sel.qty === 0) return;
+      const duration = parseFloat(row["Duration (Days)"]) || 0;
+      const rate = parseFloat(row["Rate Per Day"]) || 0;
+      const cost = duration * rate * sel.qty;
+      const days = duration * sel.qty;
+      if (sheet === currentSheet) {
+        const costCell = document.getElementById(`cost-${index}`);
+        if (costCell) costCell.textContent = `£${cost.toFixed(2)}`;
+      }
+      total += cost;
+      totalDays += days;
+    });
+  });
+((row, index) => {
         const qty = parseInt(document.querySelector(`.quantity[data-index="${index}"]`).value) || 0;
         const duration = parseFloat(row["Duration (Days)"]) || 0;
         const rate = parseFloat(row["Rate Per Day"]) || 0;
