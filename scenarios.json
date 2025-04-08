@@ -51,7 +51,7 @@
     "Single Firewall Deployment - UTM Features": {
       "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
       "Fortigate UTM configuration - Web Filter": 1,
-      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1
+      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1,
       "Travel Time for Field Engineer": 1
     },
     "Single Firewall Deployment - UTM Features and SSL VPN Setup": {
