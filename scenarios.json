@@ -121,7 +121,7 @@
       "Migrate production data to Sharepoint sites (per 500gb)": 1,
       "Procure Profwiz licensing and create provisioning package for workstations": 1,
       "Creation of script to migrate the workstations to Entra": 1,
-      "Migration of workstations (per 7 workstations": 4
+      "Migration of workstations (per 7 workstations)": 4
     },
     "Medium Business (50 users, 6 SharePoint sites)": {
       "Consultation session to review current file share structure and layout desired Sharepoint structure": 1,
@@ -132,7 +132,7 @@
       "Migrate production data to Sharepoint sites (per 500gb)": 2,
       "Procure Profwiz licensing and create provisioning package for workstations": 1,
       "Creation of script to migrate the workstations to Entra": 1,
-      "Migration of workstations (per 7 workstations": 8
+      "Migration of workstations (per 7 workstations)": 8
     },
     "Large Business (100+ users, 12+ SharePoint sites)": {
       "Consultation session to review current file share structure and layout desired Sharepoint structure": 1,
@@ -143,7 +143,7 @@
       "Migrate production data to Sharepoint sites (per 500gb)": 4,
       "Procure Profwiz licensing and create provisioning package for workstations": 1,
       "Creation of script to migrate the workstations to Entra": 1,
-      "Migration of workstations (per 7 workstations": 14
+      "Migration of workstations (per 7 workstations)": 14
     }
   },
   "Intune": {
