@@ -25,7 +25,7 @@
       "Travel Time for Field Engineer": 1,
       "Physical server decommission": 1
     },
-    "Large Business (8+ VMs inc. Web + RDS Cluster)": {
+    "Large Business (10+ VMs inc. Web + RDS Farm)": {
       "New Server Build - RAID & IDRAC Setup, Remote Agent installation, Apply latest firmware, Apply licensing, Hyper-V Setup, rack equipment": 1,
       "Build New VM - Domain Controller": 1,
       "Build New VM - File Server": 1,
@@ -44,21 +44,29 @@
     }
   },
   "Fortigate Installs": {
-    "Small Office Firewall Deployment": {
+    "Single Firewall Deployment - No UTM": {
       "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
-      "Fortigate UTM configuration - Web Filter": 1,
-      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1
+      "Travel Time for Field Engineer": 1,
     },
-    "Branch Office with Custom Rules": {
+    "Single Firewall Deployment - UTM Features": {
       "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
       "Fortigate UTM configuration - Web Filter": 1,
       "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1
+      "Travel Time for Field Engineer": 1,
     },
-    "Head Office Clustered Firewalls": {
+    "Single Firewall Deployment - UTM Features and SSL VPN Setup": {
       "Fortigate firewall WAN/LAN and default ACL configuration ": 1,
       "Fortigate UTM configuration - Web Filter": 1,
-      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1
-    }
+      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 1,
+      "Fortigate SSL VPN configuration": 1,
+      "Travel Time for Field Engineer": 1,
+    },
+    "HA Firewall Deployment - UTM Features and SSL VPN Setup": {
+      "Fortigate firewall WAN/LAN and default ACL configuration ": 2,
+      "Fortigate UTM configuration - Web Filter": 2,
+      "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 2,
+      "Fortigate SSL VPN configuration": 2,
+      "Travel Time for Field Engineer": 1,
   },
   "On-Prem to Azure": {
     "Small Business (5 VMs)": {
@@ -138,13 +146,12 @@
     }
   },
   "Intune": {
-    "Small Deployment (25 Devices / Single OS)": {
+    "Small Deployment (25 Devices / BYOD only)": {
       "Digital Transformation Project - Intune BYOD Windows 10/11": 1,
       "Digital Transformation Project - Intune BYOD iOS": 1,
       "Digital Transformation Project - Intune BYOD Android": 1,
-      "Digital Transformation Project - Intune Corporate Windows 10": 1
     },
-    "Medium Deployment (50-75 Devices, Mix of OS)": {
+    "Medium Deployment (26-99 Devices, Mix of BYOD/Corporate)": {
       "Digital Transformation Project - Intune BYOD Windows 10/11": 2,
       "Digital Transformation Project - Intune BYOD iOS": 2,
       "Digital Transformation Project - Intune BYOD Android": 2,
