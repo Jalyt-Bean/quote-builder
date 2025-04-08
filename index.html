@@ -1,11 +1,12 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Professional Services Labour Estimator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+<meta charset="utf-8"/>
+<title>Professional Services Labour Estimator</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
     body { font-family: Arial, sans-serif; padding: 2rem; background: #f4f4f4; }
     h1 { text-align: center; color: #333; }
     .controls, .summary-card { max-width: 900px; margin: 1rem auto; background: white; padding: 1rem; border-radius: 8px; }
@@ -17,43 +18,39 @@
   </style>
 </head>
 <body>
-  <h1>Professional Services Labour Estimator</h1>
-
-  <div class="controls">
-    <label for="projectSelect">Project Type:</label>
-    <select id="projectSelect"></select>
-    <label for="scenarioSelect">Scenario:</label>
-    <select id="scenarioSelect"></select>
-  </div>
-
-  <table id="taskTable">
-    <thead>
-      <tr>
-        <th><input id="toggleAll" type="checkbox" /></th>
-        <th>Task</th>
-        <th>Rate Type</th>
-        <th>Duration (Days)</th>
-        <th>Rate Per Day</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div class="summary-card">
-    <h3>Quote Summary</h3>
-    <div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
-    <div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
-    <div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
-    <div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
-    <div class="summary-line"><span>PS Days:</span><span id="ps-days">0</span></div>
-    <div class="summary-line"><span>Engineering Days:</span><span id="eng-days">0</span></div>
-    <div class="summary-line"><span>Consultancy Days:</span><span id="cons-days">0</span></div>
-    <div class="summary-line"><label><input checked id="pmRequired" type="checkbox" onchange="calculateTotal()"> Project Management Required</label></div>
-  </div>
-
-  <script>
+<h1>Professional Services Labour Estimator</h1>
+<div class="controls">
+<label for="projectSelect">Project Type:</label>
+<select id="projectSelect"></select>
+<label for="scenarioSelect">Scenario:</label>
+<select id="scenarioSelect"></select>
+</div>
+<table id="taskTable">
+<thead>
+<tr>
+<th><input id="toggleAll" type="checkbox"/></th>
+<th>Task</th>
+<th>Rate Type</th>
+<th>Duration (Days)</th>
+<th>Rate Per Day</th>
+<th>Quantity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div class="summary-card">
+<h3>Quote Summary</h3>
+<div class="summary-line"><span>Total Selected Cost:</span><span id="total">£0.00</span></div>
+<div class="summary-line"><span>PM Fee (20%):</span><span id="pm-fee">£0.00</span></div>
+<div class="summary-line"><span>Grand Total:</span><span id="grand-total">£0.00</span></div>
+<div class="summary-line"><span>Total Days Required:</span><span id="total-days">0</span></div>
+<div class="summary-line"><span>PS Days:</span><span id="ps-days">0</span></div>
+<div class="summary-line"><span>Engineering Days:</span><span id="eng-days">0</span></div>
+<div class="summary-line"><span>Consultancy Days:</span><span id="cons-days">0</span></div>
+<div class="summary-line"><label><input checked="" id="pmRequired" onchange="calculateTotal()" type="checkbox"/> Project Management Required</label></div>
+</div>
+<script>
     let allData = {}, scenarios = {}, tooltips = {}, selections = {}, currentSheet = "";
 
     window.addEventListener("DOMContentLoaded", () => {
@@ -81,10 +78,36 @@
       select.addEventListener("change", () => {
         currentSheet = select.value;
         renderTasks();
+
+      document.getElementById("toggleAll").addEventListener("change", function () {
+        const checked = this.checked;
+        const allRows = allData[currentSheet];
+        selections[currentSheet] = allRows.map((row, i) => {
+          return {
+            selected: checked,
+            qty: checked ? 1 : 0
+          };
+        });
+        renderTasks();
+      });
+
         updateScenarios();
       });
       currentSheet = Object.keys(allData)[0];
       renderTasks();
+
+      document.getElementById("toggleAll").addEventListener("change", function () {
+        const checked = this.checked;
+        const allRows = allData[currentSheet];
+        selections[currentSheet] = allRows.map((row, i) => {
+          return {
+            selected: checked,
+            qty: checked ? 1 : 0
+          };
+        });
+        renderTasks();
+      });
+
       updateScenarios();
     }
 
@@ -117,6 +140,19 @@
         return { selected: qty > 0, qty };
       });
       renderTasks();
+
+      document.getElementById("toggleAll").addEventListener("change", function () {
+        const checked = this.checked;
+        const allRows = allData[currentSheet];
+        selections[currentSheet] = allRows.map((row, i) => {
+          return {
+            selected: checked,
+            qty: checked ? 1 : 0
+          };
+        });
+        renderTasks();
+      });
+
     }
 
     function renderTasks() {
@@ -134,8 +170,21 @@
         checkbox.checked = selections[currentSheet][index].selected;
         checkbox.addEventListener("change", () => {
           selections[currentSheet][index].selected = checkbox.checked;
-          if (!checkbox.checked) selections[currentSheet][index].qty = 0;
+          selections[currentSheet][index].qty = checkbox.checked ? 1 : 0;
           renderTasks();
+
+      document.getElementById("toggleAll").addEventListener("change", function () {
+        const checked = this.checked;
+        const allRows = allData[currentSheet];
+        selections[currentSheet] = allRows.map((row, i) => {
+          return {
+            selected: checked,
+            qty: checked ? 1 : 0
+          };
+        });
+        renderTasks();
+      });
+
           calculateTotal();
         });
         tdCheck.appendChild(checkbox);
