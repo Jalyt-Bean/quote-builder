@@ -67,6 +67,7 @@
       "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration": 2,
       "Fortigate SSL VPN configuration": 2,
       "Travel Time for Field Engineer": 1
+    }
   },
   "On-Prem to Azure": {
     "Small Business (5 VMs)": {
@@ -149,7 +150,7 @@
     "Small Deployment (25 Devices / BYOD only)": {
       "Digital Transformation Project - Intune BYOD Windows 10/11": 1,
       "Digital Transformation Project - Intune BYOD iOS": 1,
-      "Digital Transformation Project - Intune BYOD Android": 1,
+      "Digital Transformation Project - Intune BYOD Android": 1
     },
     "Medium Deployment (26-99 Devices, Mix of BYOD/Corporate)": {
       "Digital Transformation Project - Intune BYOD Windows 10/11": 2,
