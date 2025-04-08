@@ -52,7 +52,7 @@
     {
       "Task": "Transfer FSMO Roles",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -73,7 +73,7 @@
     {
       "Task": "Install Datto BCDR agent - per 5 VMs",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -117,14 +117,14 @@
     {
       "Task": "Fortigate UTM configuration - Web Filter",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "Fortigate UTM configuration - IDS/IPS & DDoS protection configuration",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -154,7 +154,7 @@
     {
       "Task": "Azure subscription procurement & creation",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -175,7 +175,7 @@
     {
       "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.0,
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -217,7 +217,7 @@
     {
       "Task": "Transfer FSMO Roles",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -245,7 +245,7 @@
     {
       "Task": "Configuration of Backup Vault & Policies",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -324,14 +324,14 @@
     {
       "Task": "Azure subscription procurement & creation",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
     {
       "Task": "Virtual network creation & hardening (inclusive of private access / endpoint)",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.0,
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -373,7 +373,7 @@
     {
       "Task": "Transfer FSMO Roles",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -394,7 +394,7 @@
     {
       "Task": "Configuration of Backup Vault & Policies",
       "Rate Type": "PS rate",
-      "Duration (Days)": 0.5,
+      "Duration (Days)": 0.25,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -508,7 +508,7 @@
     {
       "Task": "Migrate production data to Sharepoint sites (per 500gb)",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.0,
+      "Duration (Days)": 0.5,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -538,7 +538,7 @@
     {
       "Task": "Digital Transformation Project - Intune BYOD Windows 10/11",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.5,
+      "Duration (Days)": 1,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -608,7 +608,7 @@
     {
       "Task": "Digital Transformation Project - Intune BYOD iOS",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.5,
+      "Duration (Days)": 1,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -664,7 +664,7 @@
     {
       "Task": "Digital Transformation Project - Intune BYOD Android",
       "Rate Type": "PS rate",
-      "Duration (Days)": 1.5,
+      "Duration (Days)": 1,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
@@ -769,7 +769,7 @@
     {
       "Task": "Digital Transformation Project - Intune Corporate Windows 10",
       "Rate Type": "PS rate",
-      "Duration (Days)": 3.0,
+      "Duration (Days)": 2,
       "Rate Per Day": 950.0,
       "Quantity": 1
     },
